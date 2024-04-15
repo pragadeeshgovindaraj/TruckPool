@@ -1,0 +1,173 @@
+{% extends "shipper/shipper_view.html" %}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TruckPool</title>
+</head>
+<body>
+{% block content %}
+
+<div class="container-fluid" align="center">
+
+    <!-- Page Heading -->
+
+<div class="p-4">
+      <div class="card o-hidden border-0">
+ {% for field, errors in user_message.items %}
+
+
+                                    <div class="alert alert-danger">
+                                        <!--<strong>{{ field|capfirst }}:</strong>-->
+                                        {% for error in errors %}
+                                        {{ error|escape }}
+                                        {% endfor %}
+                                    </div>
+
+                                    {% endfor %}
+
+        <form action="{% url 'payment_view' request_id=shipment_request.id %}" method="POST">
+           {% csrf_token %}
+        <div class="row g-5">
+          <div class="col-md-8 col-sm-6 col-xs-12">
+            <div class="p-2">
+              <div class="d-flex justify-content-between align-items-center">
+                <div><img src="{% static 'images/logo.png'%}" alt="Payment Logo" height="48" >PAY</div>
+                <div>
+                  <span class="badge p-2 fs-5 bg-dark text-white">0</span><span style="margin-left:2px" class="badge p-2 fs-5 bg-dark text-white" >0</span>
+                  <span class="fs-5">:</span> <span class="badge p-2 fs-5 bg-dark text-white">0</span><span style="margin-left:2px" class="badge p-2 fs-5 bg-dark text-white" >0</span>
+                </div>
+              </div>
+
+              <div class="mt-5">
+                <div>
+                  <label class="d-block" for="id_card_number"><strong>Card Number</strong></label>
+                  <small class="text-secondary">Enter the 16 - digit number printed on the card </small>
+                  <div class="position-relative">
+                    <input type="text" id="id_card_number" name="card_number" required value ="5555555555554444" class="form-control mt-3"><span id="cardType"></span>
+                  </div>
+                </div>
+                  <div class="mt-5">
+                  <div class="row align-items-center">
+                    <div class="col-sm-6 col-xs-12">
+                      <label class="d-block" for="expiry_mm"><strong>Name</strong></label>
+                      <small class="text-secondary">Enter the name on the card </small>
+                    </div>
+                    <div class="col-sm-6 col-xs-12">
+                      <div class="d-flex align-items-center">
+                        <input type="text" id="id_first_name" name="first_name" required value="{{shipment.shipper_user.first_name}}" class="form-control" placeholder="First Name">
+                        <span class="fs-4 mx-3"></span>
+                        <input type="text" id="id_last_name" name="last_name" required value="{{shipment.shipper_user.last_name}}" class="form-control" placeholder="Last Name">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="mt-5">
+                  <div class="row align-items-center">
+                    <div class="col-sm-6 col-xs-12">
+                      <label class="d-block" for="id_cvv"><strong>CVV Number</strong></label>
+                      <small class="text-secondary">Enter the 3 or 4 digit number printed at back of the card </small>
+                    </div>
+                    <div class="col-sm-6 col-xs-12">
+                      <input type="text" id="id_cvv" name="cvv" required value="522" class="form-control">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mt-5">
+                  <div class="row align-items-center">
+                    <div class="col-sm-6 col-xs-12">
+                      <label class="d-block" for="id_expiration_date"><strong>Expiry Date</strong></label>
+                      <small class="text-secondary">Enter the expiration date of the card </small>
+                    </div>
+                    <div class="col-sm-6 col-xs-12">
+                      <div class="d-flex align-items-center">
+                        <input type="text" id="id_expiration_date" name="expiration_date" required value="02/2026" class="form-control">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+               <!-- <div class="mt-5">
+                  <div class="row align-items-center">
+                    <div class="col-sm-6 col-xs-12">
+                      <label class="d-block" for="postal"><strong>Postal (Zip) Code</strong></label>
+                      <small class="text-secondary">Enter the postal / Zip code of billing address </small>
+                    </div>
+                    <div class="col-sm-6 col-xs-12">
+                      <div class="d-flex align-items-center">
+                        <input type="text" id="postal" class="form-control">
+                      </div>
+                    </div>
+                  </div>
+                </div>-->
+                <button class="btn btn-primary mt-5 w-100">Pay Now</button>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 col-sm-6 col-xs-12">
+
+            <div style="background:#eff4f8;border-radius:16px;">
+              <div class="p-4">
+                <table class="w-100" id="cartTable">
+                  <tr>
+                    <td><span class="text-secondary">Order #</span></td>
+                    <td><strong>{{shipment_request.id}}</strong></td>
+                  </tr>
+                  <tr>
+                    <td><span class="text-secondary">Shipment ID</span></td>
+                    <td><strong>{{shipment.id}}</strong>
+
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><span class="text-secondary">Quantity</span></td>
+                    <td><strong>{{shipment.quantity}}</strong>
+                  </tr>
+                  <tr>
+                    <td><span class="text-secondary">Weight</span></td>
+                    <td><strong>{{shipment.weight}} kg</strong></td>
+                  </tr>
+
+
+                  <tr>
+                    <td><span class="text-secondary">Dimensions</span></td>
+                    <td><strong>  {{shipment.length}} x {{shipment.width}} x {{shipment.height}}</strong></td>
+                  </tr>
+
+                  <tr>
+                    <td><span class="text-secondary">Total</span></td>
+                    <td><strong class="text-primary">${{shipment_request.quote}}</strong></td>
+                    <input type="hidden" id="id_amount" value="{{shipment_request.quote}}" name="amount">
+                    <input type="hidden" id="id_request_id" value="{{shipment_request.id}}" name="request_id">
+                  </tr>
+
+                </table>
+                <hr>
+              </div>
+              <div id="ticket">
+                <div class="d-flex p-4 align-items-center justify-content-between">
+                  <div>
+                    <small class="text-secondary">You Have to Pay</small>
+                    <div class="fs-2"><strong>${{shipment_request.quote}}</strong></div>
+                  </div>
+                  <div>
+                    <img src="{% static 'images/shop.svg'%}" width="48" alt="">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        </form>
+      </div>
+    </div>
+
+</div>
+
+
+{% endblock %}
+
+</body>
+</html>
+

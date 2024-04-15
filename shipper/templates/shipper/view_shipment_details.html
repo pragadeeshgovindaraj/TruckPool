@@ -1,0 +1,515 @@
+{% extends "shipper/shipper_view.html" %}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TruckPool</title>
+
+</head>
+
+<body>
+{% block content %}
+
+
+<div class="container-fluid" align="center">
+                       <h1 class="h4 text-gray-900 mb-4" align="center">Shipment Details</h1>
+
+    <div class="row">
+
+        <div class="col-3">
+            <div class="row">
+                <div class="col">
+                        <table style="font: small-caption" class ="table table-sm" border="1" cellpadding="0" cellspacing="0">
+                            <thead>
+                                <tr style=" background-color: #003993;
+  color: #fff;">
+                                    <td colspan="2">  Shipment Listing Information </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <th>Shipment Title:</th>
+                                <td id="title2">{{shipment.quantity}} Box</td>
+                            </tr>
+                            <tr>
+                                <th>Shipment ID:</th>
+                                <td>{{shipment.id}}</td>
+                            </tr>
+                     <!--       <tr>
+                                <th>Customer:</th>
+                                <td class="sel-customer-card">
+                                    <div class="gtm-customer-name">
+                                        {{shipment.shipper_user.first_name}} {{shipment.shipper_user.last_name}}
+                                     </div>
+
+                                </td>
+                            </tr>-->
+                            <tr>
+                                <th>Pick up Date:</th>
+                                <td>{{shipment.pickup_date}}</td>
+                            </tr>
+
+                            <!--  Used to hide auction end info when the listing is no longer active -->
+
+
+                            <tr id="ContentBody_conPricing">
+                                <th>Estimated Quote:</th>
+                                <td id="ContentBody_pricing"><span class="pricingoption"><span
+                                        class="pricingoption-type"><span class="brandedtext brandedtext-place-bid">             {{shipment.estimated_quotation}}</span></span></span>
+                                </td>
+                            </tr>
+
+
+                            <tr id="ContentBody_conNumberOfBids">
+                                <th>Size</th>
+                                <td>{{shipment.length}} x {{shipment.width}} x {{shipment.height}}</td>
+                            </tr>
+
+
+                            <tr>
+                                <th>Weight</th>
+                                <td id="auction"> {{shipment.weight}}kg</td>
+                            </tr>
+
+
+                            </tbody>
+                        </table>
+                </div>
+
+            </div>
+            <div class="row"></div>
+
+                   <table style="font: small-caption" class="table table-sm" border="1" cellpadding="0" cellspacing="0">
+                <thead>
+                <tr style=" background-color: #003993; color: #fff;">
+                    <td colspan="2"> Payment Status </td>
+                </tr>
+                <tr>
+                    <td >Amount Paid</td>
+                    <td >$ {{payment_details.amount}}</td>
+                </tr>
+                <tr>
+                    <td >Payment Date</td>
+                    <td > {{payment_details.payment_date}}</td>
+                </tr>
+                </thead>
+                    </table>
+
+                </div>
+
+        <div class="col-9">
+            <div class="row">
+                <div class="col-12">
+                    <table style="font: small-caption" class="table table-sm" border="1" cellpadding="0" cellspacing="0">
+                <thead>
+                <tr style=" background-color: #003993; color: #fff;">
+                    <td colspan="2"> Origin, Destination, & Route Information</td>
+                </tr>
+                </thead>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+   <div>
+                 <img id="map-static" src="" alt="Map with Markers">
+             </div>
+
+                </div>
+                <div class="col-5">
+                       <table style="font: small-caption;" class="table table-sm" border="0" cellpadding="0" cellspacing="0">
+<!--    <thead>
+        <tr style="background-color: #02b2e0; color: #fff;">
+            <td colspan="2">origin</td>
+        </tr>
+    </thead>-->
+    <tbody>
+        <tr>
+            <!-- Apply the CSS class to the table cell -->
+            <th class="table-cell">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <path d="M12 0c-5.52 0-10 4.48-10 10 0 6.305 9.4 14 10 14 0.6 0 10-7.695 10-14 0-5.52-4.48-10-10-10zm0 14c-1.63 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z" fill="red"/>
+                </svg> origin
+            </th>
+            <td>{{shipment.pickup_address}}</td>
+        </tr>
+      <!--  <thead>
+            <tr style="background-color: #02b2e0; color: #fff;">
+
+            </tr>
+        </thead>-->
+        <tr>
+            <!-- Apply the CSS class to the table cell -->
+            <th><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                    <path d="M12 2c-5.523 0-10 4.477-10 10 0 5.522 4.477 10 10 10s10-4.478 10-10c0-5.523-4.477-10-10-10zm0 18c-4.418 0-8-3.582-8-8 0-4.42 3.582-8 8-8s8 3.58 8 8c0 4.418-3.582 8-8 8zm0-11c-1.104 0-2 .895-2 2s.896 2 2 2 2-.895 2-2-.896-2-2-2z" fill="#000"/>
+
+
+                 </svg>   Distance</th>
+            <td class="table-cell" ><span id="distance_display"></span></td>
+        </tr>
+
+        <tr>
+            <!-- Apply the CSS class to the table cell -->
+            <th class="table-cell"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <path d="M12 0c-5.52 0-10 4.48-10 10 0 6.305 9.4 14 10 14 0.6 0 10-7.695 10-14 0-5.52-4.48-10-10-10zm0 14c-1.63 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z" fill="green"/>
+            </svg>    Destination</th>
+            <td>{{shipment.drop_off_address}}</td>
+
+        </tr>
+    </tbody>
+</table>
+               <table align="center" style="font: small-caption" class="table table-sm" border="1" cellpadding="0" cellspacing="0">
+                <thead>
+                <tr style=" background-color: #003993; color: #fff;">
+                    <td colspan="2"> Rating & Review </td>
+                </tr>
+                <tr>
+                    <!--<td >Status</td>-->
+                    <td colspan="2" align="center"><img src="#" alt=""><h3><strong>{{shipment.status|upper }}</strong></h3></td>
+
+
+                </tr>
+                 {% if shipment.status == 'completed'%}
+              {% if not rating %}   <tr>
+                                            <td colspan="2" align="center"><img src="#" alt="">
+
+
+                                                <button type="button" class=" btn btn-success font-weight-medium px-4" data-toggle="modal" data-target="#createmodel">
+                                                    <i class="fa fa-star" aria-hidden="true"></i>
+
+                                                    Rate & Review
+                                                </button>
+                                                </td>
+                </tr>
+                                                {% else %}
+                <tr>
+                     <td colspan="2">
+                                                <div align="center">
+                      <div class="rating">
+  <input id="rating1" type="radio" name="rating" value="1" title="bad">
+  <label for="rating1">1</label>
+  <input id="rating2" type="radio" name="rating" value="2" title="poor">
+  <label for="rating2">2</label>
+  <input id="rating3" type="radio" name="rating" value="3" title="regular">
+  <label for="rating3">3</label>
+  <input id="rating4" type="radio" name="rating" value="4" title="good">
+  <label for="rating4">4</label>
+  <input id="rating5" type="radio" name="rating" value="5" title="gorgeous">
+  <label for="rating5">5</label>
+</div>
+                      <input id="ratingInput" value="{{rating.rating}}" hidden>
+                   <!--<input type="text" class="form-control" placeholder="Enter Mobile Number Here" aria-label="no">-->
+                  </div>
+
+
+                     </td>
+</tr>
+                <tr>
+                    <td align="center">
+                        {{review.text}}
+                    </td>
+                </tr>
+                                                {% endif %}
+
+
+
+                    {% endif %}
+                </thead>
+                    </table>
+
+                       <form >
+            <input type="hidden" id="drop_off_location" value="{{shipment.drop_off_location}}">
+            <input type="hidden"  id="pickup_location" value="{{shipment.pickup_location}}" >
+            </form>
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <br>
+    <div class="row">
+                <div class="col">
+                        <table style="font: small-caption" class ="table table-sm" border="1" cellpadding="0" cellspacing="0">
+                            <thead>
+                                <tr style=" background-color: #003993;
+  color: #fff;">
+                                    <td colspan="5">  Carrier Information </td>
+                                </tr>
+                            </thead>
+                              <tbody>
+                            <tr style="background-color: #2677f424;">
+                                <th>Carrier ID</th>
+                                <th>Carrier Name</th>
+                                <th>Contact No</th>
+                                <th>Email</th>
+
+                            </tr>
+
+                            <tr >
+                                <td>{{carrier_request.carrier.id}}</td>
+                                <td>{{carrier_request.carrier.first_name}}{{carrier_request.carrier.last_name}}</td>
+                                <td>{{carrier_request.carrier.contact_no}}</td>
+                                <td>{{carrier_request.carrier.user.email}}</td>
+
+
+                            </tr>
+                              </tbody>
+
+                        </table>
+                </div>
+    </div>
+    {% if shipment.status == 'assigned' %}
+    <div class="row">
+        <div class="col">
+
+                   <table style="font: small-caption" class="table table-sm" border="1" cellpadding="0" cellspacing="0">
+                <thead>
+
+                <tr style=" background-color: #003993; color: #fff;">
+                    <td colspan="4"> Shipment Status </td>
+                    <input type="hidden" id="current_lat" value="{{current_location.latitude}}">
+                    <input type="hidden" id="current_lng" value="{{current_location.longitude}}">
+                </tr>
+                <tr style=" background-color: #2677f424;">
+                    <td > </td>
+                    <td > Estimated Date </td>
+                    <td > Estimated Time </td>
+                    <td > Status </td>
+                </tr>
+                <tr>
+                    <td > Pick Up </td>
+                    <td>{{shipment_status.est_pickup_time.date}}</td>
+                    <td>{{shipment_status.est_pickup_time.time}}</td>
+                    <td>{%if shipment_status.current_status == 'Picked'%}<i class="fas fa-check"></i>  {%endif%}</td>
+                </tr>
+                <tr>
+                    <td > Delivery </td>
+                    <td>{{shipment_status.est_drop_off_date.date}}</td>
+                    <td>{{shipment_status.est_drop_off_date.time}}</td>
+                    <td>{%if shipment_status.current_status == 'Delivered'%} <i class="fas fa-check"></i> {%endif%}</td>
+                </tr>
+
+
+                </thead>
+                    </table>
+
+        </div>
+    </div>
+    {%endif%}
+
+       <div class="modal fade" id="createmodel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+           <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <form id="ratingForm">
+                  <input id="id_shipment" value="{{shipment.id}}" hidden>
+                  <input id="carrier_request_id" value="{{carrier_request.id}}" hidden>
+                  <input id="rating_id" value="{{rating.id}}" hidden>
+                  <input id="review_id" value="{{review.id}}" hidden>
+                <div align="center" class="modal-header d-flex align-items-center">
+                  <h2 class="modal-title" id="createModalLabel">
+                   <!-- <i class="ti-marker-alt me-2"></i> -->Rate Your Experience
+                  </h2>
+                  <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                   <div>
+                                                               <p>We highly value your feedback! Kindly take a moment to rate your experience and provide us with your valuable feedback.</p>
+
+                       </div>
+                    <div>
+                  <div class="alert alert-success" id="success_message" style="display: None;">
+
+                    </div>
+                  <div align="center">
+                      <div class="rating">
+  <input id="rating1" type="radio" name="rating" value="1" title="bad">
+  <label for="rating1">1</label>
+  <input id="rating2" type="radio" name="rating" value="2" title="poor">
+  <label for="rating2">2</label>
+  <input id="rating3" type="radio" name="rating" value="3" title="regular">
+  <label for="rating3">3</label>
+  <input id="rating4" type="radio" name="rating" value="4" title="good">
+  <label for="rating4">4</label>
+  <input id="rating5" type="radio" name="rating" value="5" title="gorgeous">
+  <label for="rating5">5</label>
+</div>
+                      <input id="ratingInput" value="{{rating.rating}}" hidden>
+                   <!--<input type="text" class="form-control" placeholder="Enter Mobile Number Here" aria-label="no">-->
+                  </div>
+                    <br>
+                  <div class="input-group mb-3">
+                    <textarea name="review_text" id="review_text" rows="4" cols="50">{{review.text}}</textarea><br>
+
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="
+                      btn btn-light-danger
+                      text-danger
+                      font-weight-medium
+                      rounded-pill
+                      px-4
+                    " data-dismiss="modal">
+                    Close
+                  </button>
+                  <button type="submit" class="btn btn-success rounded-pill px-4">
+                    Submit
+                  </button>
+                </div>
+            </div>
+              </form>
+            </div>
+        </div>
+       </div>
+  <!--   <div class="row">
+          <div class="col-8" align="right">
+        <div class="page-content page-container" id="page-content">
+    <div class="padding">
+        <div class="row container d-flex justify-content-center">
+<div class="col-md-6">
+            <div class="card card-bordered">
+              <div class="card-header">
+                <h4 class="card-title"><strong>Chat</strong></h4>
+                <a class="btn btn-xs btn-secondary" href="#" data-abc="true">Let's Chat App</a>
+              </div>
+
+
+              <div class="ps-container ps-theme-default ps-active-y" id="chat-content" style="overflow-y: scroll !important; height:400px !important;">
+                <div class="media media-chat">
+                  <img class="avatar" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="...">
+                  <div class="media-body">
+                    <p>Hi</p>
+                    <p>How are you ...???</p>
+                    <p>What are you doing tomorrow?<br> Can we come up a bar?</p>
+                    <p class="meta"><time datetime="2018">23:58</time></p>
+                  </div>
+                </div>
+
+                <div class="media media-meta-day">Today</div>
+
+                <div class="media media-chat media-chat-reverse">
+                  <div class="media-body">
+                    <p>Hiii, I'm good.</p>
+                    <p>How are you doing?</p>
+                    <p>Long time no see! Tomorrow office. will be free on sunday.</p>
+                    <p class="meta"><time datetime="2018">00:06</time></p>
+                  </div>
+                </div>
+
+                <div class="media media-chat">
+                  <img class="avatar" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="...">
+                  <div class="media-body">
+                    <p>Okay</p>
+                    <p>We will go on sunday? </p>
+                    <p class="meta"><time datetime="2018">00:07</time></p>
+                  </div>
+                </div>
+
+                <div class="media media-chat media-chat-reverse">
+                  <div class="media-body">
+                    <p>That's awesome!</p>
+                    <p>I will meet you Sandon Square sharp at 10 AM</p>
+                    <p>Is that okay?</p>
+                    <p class="meta"><time datetime="2018">00:09</time></p>
+                  </div>
+                </div>
+
+                <div class="media media-chat">
+                  <img class="avatar" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="...">
+                  <div class="media-body">
+                    <p>Okay i will meet you on Sandon Square </p>
+                    <p class="meta"><time datetime="2018">00:10</time></p>
+                  </div>
+                </div>
+
+                <div class="media media-chat media-chat-reverse">
+                  <div class="media-body">
+                    <p>Do you have pictures of Matley Marriage?</p>
+                    <p class="meta"><time datetime="2018">00:10</time></p>
+                  </div>
+                </div>
+
+                <div class="media media-chat">
+                  <img class="avatar" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="...">
+                  <div class="media-body">
+                    <p>Sorry I don't have. i changed my phone.</p>
+                    <p class="meta"><time datetime="2018">00:12</time></p>
+                  </div>
+                </div>
+
+                <div class="media media-chat media-chat-reverse">
+                  <div class="media-body">
+                    <p>Okay then see you on sunday!!</p>
+                    <p class="meta"><time datetime="2018">00:12</time></p>
+                  </div>
+                </div>
+
+              <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 0px;"><div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; height: 0px; right: 2px;"><div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 2px;"></div></div></div>
+
+              <div class="publisher bt-1 border-light">
+                <img class="avatar avatar-xs" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="...">
+                <input class="publisher-input" type="text" placeholder="Write something">
+                <span class="publisher-btn file-group">
+                  <i class="fa fa-paperclip file-browser"></i>
+                  <input type="file">
+                </span>
+                <a class="publisher-btn" href="#" data-abc="true"><i class="fa fa-smile"></i></a>
+                <a class="publisher-btn text-info" href="#" data-abc="true"><i class="fa fa-paper-plane"></i></a>
+              </div>
+
+             </div>
+          </div>
+          </div>
+          </div>
+          </div>
+          </div>
+    </div>-->
+    <div class="row justify-content-end">
+        <div class="col-12" align="right">
+
+<!--
+            <a class="btn btn-primary text-white" onclick="openChat('{{carrier_request.carrier.user.username}}', '{{request.user.username}}')"><i class="fa fa-message"></i> Chat </a>
+-->
+
+           <!-- <a href="{% url 'label_document' shipment_id=shipment.id %}"></a>-->
+        </div>
+    </div>
+     <div  class="float" id="chatButton">
+      <a class="text-white" onclick="openChat('{{carrier_request.carrier.user.username}}', '{{request.user.username}}')"><i class="fa fa-comment my-float"></i> Chat </a>
+    </div>
+     <div id="chatModal"   style="position: fixed; bottom: 50px; right: 0; display: None">
+
+<div class="chat-container">
+        <div class="chat-header">
+            <h2><i class="fas fa-comment"></i></h2>
+        </div>
+        <div class="chat-logout">
+            {% if request.user.is_authenticated %}
+            <input type="hidden" id="logged_in_user" value="{{request.user.username}}">
+            <div style="float: left;font-weight: bold; color: #036358;" id="to_send_username">{{ carrier_request.carrier.user.username|title }}</div>
+            <div style="float: right;"><span onclick="closeChatModal()"><i class="far fa-window-close"></i> </span>
+            </div>
+            <div style="clear: both;"></div>
+            {% endif %}
+        </div>
+        <div class="chat__item__container" id="id_chat_item_container">
+            <!-- Messages will be displayed here with a scrollbar -->
+        </div>
+        <div class="chat-input-container">
+            <input type="text" id="id_message_send_input" placeholder="Type your message..." />
+            <button type="submit" id="id_message_send_button"><i class="fas fa-paper-plane"></i> Send</button>
+        </div>
+    </div>
+    </div>
+
+</div>
+
+{% endblock %}
+
+</body>
+
+
+</html>

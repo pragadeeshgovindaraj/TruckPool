@@ -1,0 +1,70 @@
+{% extends "shipper/shipper_view.html" %}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TruckPool</title>
+
+</head>
+<body>
+{% block content %}
+
+
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-12" align="center">
+        <div class="card text-center">
+  <div class="card-header">
+        <h2>Congratulations!</h2>
+  </div>
+  <div class="card-body">
+<svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                                        <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+                                        <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                                    </svg>    <p class="card-text"></p>
+      <h6 class="card-title">Payment Successful </h6>
+      <br>
+    <a href="{% url 'user_shipments' status='assigned' %}" class="btn btn-primary">Go to Shipments</a>
+  </div>
+<!--  <div class="card-footer text-muted">
+    2 days ago
+  </div>-->
+</div>
+
+
+        </div>
+<!--        <div class="text-center">
+	&lt;!&ndash; Button HTML (to Trigger Modal) &ndash;&gt;
+	<a href="#myModal" class="trigger-btn" data-toggle="modal">Click to Open Confirm Modal</a>
+</div>-->
+
+<!-- Modal HTML -->
+<!--<div id="myModal" class="modal fade">
+	<div class="modal-dialog modal-confirm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<div class="icon-box">
+					<i class="material-icons">&#xE876;</i>
+				</div>
+				<h4 class="modal-title w-100">Awesome!</h4>
+			</div>
+			<div class="modal-body">
+				<p class="text-center">Your booking has been confirmed. Check your email for detials.</p>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-success btn-block" data-dismiss="modal">OK</button>
+			</div>
+		</div>
+	</div>
+</div>    -->
+    </div>
+</div>
+
+
+{% endblock %}
+
+</body>
+</html>
+

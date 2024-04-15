@@ -1,0 +1,314 @@
+{% extends "shipper/shipper_view.html" %}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TruckPool</title>
+</head>
+<body>
+{% block content %}
+
+<div class="container-fluid">
+    <main role="main" id="mainContent" class="content">
+        <div id="mount" class="listingsOwned">
+            <div class="">
+                <div></div>
+                <div class="row">
+                    <div class="small-12     columns">
+                        <div class="filters-wrapper">
+                            <div class="flex-container and-largeJustifyBetween and-largeAlignCenter and-smallColumn and-largeRow and-nowrap filters">
+                                <div class="flex-item and-auto filterBuckets-container">
+                                    <div class="filterBuckets">
+                                        <div class="flex-container and-smallColumn and-largeRow">
+                                    <!--        <button class="bucket sel-bucket-Saved" aria-label="Saved Shipments Filter"
+                                                    type="button">
+                                                <div class="bucket-inner"><h2 class="bucket-inner-text">Saved</h2></div>
+                                            </button>-->
+                                            <a href="{% url 'user_shipments' status='pending' %}"
+                                               class="bucket sel-bucket-Pending {{pending}}"
+                                                    aria-label="Pending Shipments Filter" type="button">
+                                                <div class="bucket-inner"><h2 class="bucket-inner-text">Pending</h2>
+                                                </div>
+                                            </a>
+                                            <a href="{% url 'user_shipments' status='payment Pending' %}"
+                                               class="bucket sel-bucket-Pending {{payment_status}}"
+                                                    aria-label="Pending Shipments Filter" type="button">
+                                                <div class="bucket-inner"><h2 class="bucket-inner-text">To Pay</h2>
+                                                </div>
+                                            </a>
+                                            <a href="{% url 'user_shipments' status='assigned' %}" class="bucket sel-bucket-Assigned {{assigned}}"
+                                                    aria-label="Assigned Shipments Filter" type="button">
+                                                    <div class="bucket-inner">
+                                                        <h2 class="bucket-inner-text">Assigned</h2>
+                                                </div>
+                                            </a>
+                                            <a href="{% url 'user_shipments' status='completed' %}" class="bucket sel-bucket-Completed  {{completed}}"
+                                                    aria-label="Completed Shipments Filter" type="button">
+                                                <div class="bucket-inner"><h2 class="bucket-inner-text">Completed</h2>
+                                                </div>
+                                            </a>
+                                            <button title="Canceled Shipments Filter" type="button"
+                                                    class="bucket sel-bucket-canceled canceledFilter"
+                                                    aria-label="Canceled Shipments Filter">
+                                                <div class="bucket-inner">
+                                                    <svg focusable="false" class="canceledButton-icon icon icon-medium">
+                                                        <use xlink:href="#ic_cancelled"></use>
+                                                    </svg>
+                                                </div>
+                                            </button>
+                                            <button title="Alerts Filter" type="button" class="alertsFilter-container"
+                                                    aria-label="Alerts Filter">
+                                                <div class="alertsFilter sel-bucket-Alerts">
+                                                    <svg focusable="false" class="icon icon-medium">
+                                                        <use xlink:href="#notification"></use>
+                                                    </svg>
+                                                </div>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                               <!-- <div class="searchContainer">
+                                    <div class="search"><input placeholder="Search" class="searchInput sel-searchInput"
+                                                               value="">
+                                        <div class="search-buttonContainer">
+                                            <button type="button" class="searchButton sel-searchButton"
+                                                    aria-label="Search Listings">
+                                                <svg focusable="false" class="searchButton-icon icon icon-medium">
+                                                    <use xlink:href="#search"></use>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="small-12     columns">
+                        <div class="resultsAndPagination">
+                            <div class="resultsCount">{{num_shipments}} Results</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="small-12     columns">
+                        <div class="flex-container and-largeAlignStretch and-smallRow and-mediumRow and-largeRow listings-list scrollable-container">
+                            <div class="flex-container and-largeAlignStart and-smallRow and-mediumRow and-largeRow listingsHeader hideForMobile">
+                                <div class="flex-item flex-large-5">
+                                    <div class="flex-container and-smallRow and-mediumRow and-largeRow">
+                                        <div class="flex-item flex-large-6 header-pickup">
+                                            <button class="button button--small inlineButton button-content inlineButton--small"
+                                                    type="button">
+                                                <div class="button-content"><span><span
+                                                        class="inlineButton-text--hideInMobile">Pickup</span></span></div>
+                                            </button>
+                                        </div>
+                                        <div class="flex-item flex-large-6 header-delivery">
+                                            <button class="button button--small inlineButton button-content inlineButton--small unselectedDeliverySort"
+                                                    type="button">
+                                                <div class="button-content"><span><span
+                                                        class="inlineButton-text--hideInMobile">Delivery</span><svg
+                                                        focusable="false" class="inlineButton-icon icon icon-small"><use
+                                                        xlink:href="#dropdown"></use></svg></span></div>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex-item flex-large-5">
+                                    <div class="flex-container and-largeAlignStart and-smallRow and-mediumRow and-largeRow">
+                                        <div class="flex-item flex-large-4 header-goods">Goods</div>
+                                        <div class="flex-item flex-large-4 header-ref-numbers">Estimate</div>
+                                        <div class="flex-item flex-large-4 header-contact">Amount</div>
+                                    </div>
+                                </div>
+                                <div class="flex-item flex-large-1 header-status">Status</div>
+                            </div>
+
+                            {% for shipment in shipments %}
+                            <div class="panel listing">
+                                <div class="flex-item flex-small-11 flex-medium-12 flex-large-5">
+                                    {% if shipment.status in 'pending' %}
+                                    <a
+
+                                        href="{% url 'edit_shipment' shipment_id=shipment.id  %}"
+
+                                        class="viewLink">
+                                        {% elif shipment.latest_request_status in 'accepted'%}
+
+                                        <a
+
+                                        href="{% url 'payment_view' request_id=shipment.latest_request_id  %}"
+
+                                        class="viewLink">
+                                        {% else %}
+
+                                             <a
+
+                                        href="{% url 'view_shipment_details' shipment_id=shipment.id %}"
+
+                                        class="viewLink">
+
+                                                 {% endif %}
+                                    <div class="listing-summaryCard">
+                                        <div class="flex-container and-smallRow and-mediumRow and-largeRow">
+                                            <div class="flex-item flex-small-11 flex-medium-4 flex-large-6 route">
+                                                <div class="flex-container and-smallRow and-mediumRow and-largeRow">
+                                                    <div class="flex-item flex-small-11 flex-large-12 route-location">
+                                                        <div class="flex-container and-smallAlignStart and-largeAlignStart and-smallRow and-mediumRow and-largeRow and-nowrap">
+                                                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" width="20px" height="20px" fill="red">
+                                                                <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                                                <path d="M172.3 501.7C27 291 0 269.4 0 192 0 86 86 0 192 0s192 86 192 192c0 77.4-27 99-172.3 309.7-9.5 13.8-29.9 13.8-39.5 0zM192 272c44.2 0 80-35.8 80-80s-35.8-80-80-80-80 35.8-80 80 35.8 80 80 80z"></path>
+                                                            </svg>
+                                                            <span>{{shipment.pickup_address}}</span></div>
+                                                    </div>
+                                                    <div class="flex-item flex-small-12">
+                                                        <div class="flex-container and-smallAlignStart and-largeAlignStart and-smallRow and-mediumRow and-largeRow and-nowrap">
+                                                            <span class="route-timeframe-text">{{shipment.pickup_date}}</span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="flex-item flex-small-12 flex-medium-4 flex-large-6">
+                                                <div class="flex-container and-largeAlignStart and-smallRow and-mediumRow and-largeRow">
+                                                    <div class="flex-item flex-small-12 route-location">
+                                                        <div class="flex-container and-smallAlignStart and-largeAlignStart and-smallRow and-mediumRow and-largeRow and-nowrap">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" width="20px" height="20px" fill="green">
+                                                                <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                                                <path d="M172.3 501.7C27 291 0 269.4 0 192 0 86 86 0 192 0s192 86 192 192c0 77.4-27 99-172.3 309.7-9.5 13.8-29.9 13.8-39.5 0zM192 272c44.2 0 80-35.8 80-80s-35.8-80-80-80-80 35.8-80 80 35.8 80 80 80z"></path>
+                                                            </svg>
+                                                            <span>{{shipment.drop_off_address}}</span></div>
+                                                    </div>
+                                                    <div class="flex-item flex-small-12 route-timeframe">
+                                                        <div class="flex-container and-smallAlignStart and-largeAlignStart and-smallRow and-mediumRow and-largeRow and-nowrap">
+                                                            <span class="route-timeframe-text"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a></div>
+                                <div class="flex-item flex-small-12 flex-medium-8 flex-large-5"><a
+                                        href="#">
+                                    <div class="listing-summaryCard">
+                                        <div class="flex-container and-smallRow and-mediumRow and-largeRow">
+                                            <div class="flex-item flex-small-12 flex-medium-4 flex-large-4 listing-summaryCard">
+                                                <div class="flex-item flex-small-12 flex-large-12 goods-topHalf">
+                                                    <div class="flex-container and-smallRow and-mediumRow and-largeRow and-nowrap">
+                                                        <div class="labelValue listingId sel-listingId"><label
+                                                                id="LabelValue-2-label"
+                                                                for="LabelValue-2-value">ID</label><span
+                                                                class="labelValue-delimiter">:</span><span
+                                                                id="LabelValue-2-value"
+                                                                aria-labelledby="LabelValue-2-label"
+                                                                class="labelValue-value">{{shipment.id}}</span></div>
+                                                    </div>
+                                                    <div class="flex-container and-smallRow and-mediumRow and-largeRow and-nowrap"></div>
+                                                </div>
+                                                <div class="flex-item flex-small-12 flex-large-12 goods-bottomHalf">
+                                                    <div class="flex-container and-largeAlignStart and-smallRow and-mediumRow and-largeRow">
+                                                        <div class="goods-title">{{shipment.quantity}} Package</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="flex-item flex-small-12 flex-medium-4 flex-large-4 listing-referenceNumbers">
+                                                <div class="flex-item flex-large-12 refNumbers-topHalf">${{shipment.estimated_quotation}}</div>
+                                            </div>
+                                            <div class="flex-item flex-small-12 flex-medium-4 flex-large-4 listing-summaryCard">
+                                                <div class="flex-item flex-small-12">
+                                                    <div class="flex-container and-smallRow and-mediumRow and-largeRow bidInfo">
+                                                        <div class="flex-item flex-small-12 bidInfo-topHalf">
+                                                            <div class="flex-container and-smallAlignStart and-smallRow and-mediumRow and-largeRow and-nowrap bidInfo-text sel-noBids">
+                                                                ${{shipment.amount}}
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex-item flex-small-12"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a></div>
+                                <div class="flex-item flex-small-12 flex-medium-4 flex-large-2">
+                                    <div class="flex-container and-smallRow and-mediumRow and-largeRow status status">
+                                        <div class="flex-item flex-small-12 status-topHalf">
+                                            <div class="status-label" data-selenium-status="Active">
+                                                <div class="icon">
+                                                    {% if shipment.status == 'assigned' %}
+                                                    <img  src="{% static 'images/icons/processing.png' %}">
+                                                   <span class="font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
+                        {{shipment.status}}
+                        </span>
+
+                                                    {% elif shipment.status == 'pending' %}
+                                                     <img class="icon" src="{% static 'images/icons/waiting.png' %}">
+                                                    <span class="font-semibold leading-tight text-orange-700 bg-orange-100 rounded-full dark:text-white dark:bg-orange-600">
+                        {{shipment.status}}
+                        </span>
+                                                    {% elif shipment.status == 'payment Pending' %}
+                                                     <img class="icon" src="{% static 'images/icons/payment.png' %}">
+                                                    <span class="font-semibold leading-tight text-orange-700 bg-orange-100 rounded-full dark:text-white dark:bg-orange-600">
+                          {{shipment.status}}
+                        </span>
+                                                    {%else%}
+                                                     <img class="icon" src="{% static 'images/icons/success.png' %}">
+                                                                               <span class="font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
+                        {{shipment.status}}
+                        </span>
+
+                                                    {% endif %}
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="flex-item flex-small-12 status-bottomHalf"></div>
+                                    </div>
+                                </div>
+                                <div class="dropdownMenu-wrapper moreButton-wrapper">
+                                    <button class="dropdownMenu-toggle moreButton" type="button">
+     <!--                                  <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg">
+        <symbol id="more-vertical" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10.5 15.2c-1.38 0-2.5 1.076-2.5 2.4 0 1.325 1.12 2.4 2.5 2.4 1.381 0 2.5-1.075 2.5-2.4 0-1.324-1.119-2.4-2.5-2.4zm0-7.6C9.12 7.6 8 8.676 8 10c0 1.325 1.12 2.4 2.5 2.4 1.381 0 2.5-1.075 2.5-2.4 0-1.324-1.119-2.4-2.5-2.4zm0-7.6C9.12 0 8 1.076 8 2.401c0 1.325 1.12 2.4 2.5 2.4 1.381 0 2.5-1.075 2.5-2.4S11.881 0 10.5 0z"></path>
+        </symbol>
+
+        &lt;!&ndash; Use the symbol with the desired ID &ndash;&gt;
+        <use xlink:href="#more-vertical"></use>
+    </svg>-->
+                                    </button>
+                                    <ul role="menu" class="dropdownMenu-dropdown moreButton-dropdown">
+                                        <li class="dropdownMenu-option"><a href="{% url 'edit_shipment' shipment_id=shipment.id  %}"
+                                                                           class="dropdownMenu-option-handler view-listing listing-action sel-view-listing"
+                                                                           role="menuitem">View</a></li>
+                                        <li class="dropdownMenu-option"><a href="{% url 'edit_shipment' shipment_id=shipment.id  %}"
+                                                                           class="dropdownMenu-option-handler edit-listing listing-action sel-edit-listing"
+                                                                           role="menuitem">Edit</a></li>
+                                        <!--<li class="dropdownMenu-option">
+                                            <button class="dropdownMenu-option-handler unlist-listing listing-action sel-unlist-listing"
+                                                    role="menuitem">Unlist
+                                            </button>
+                                        </li>-->
+                                        <li class="dropdownMenu-option"><a
+                                                href="#"
+                                                class="dropdownMenu-option-handler delete-listing listing-action sel-delete-listing"
+                                                role="menuitem">Delete</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+    </main>
+</div>
+
+
+{% endblock %}
+
+</body>
+</html>

@@ -1,0 +1,254 @@
+{% extends "shipper/shipper_view.html" %}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TruckPool</title>
+    <style>
+h5 {
+  font-size: 2rem;
+  font-weight: 2rem;
+  letter-spacing: .1rem;
+  line-height: 1.5rem;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+}
+    </style>
+</head>
+<body>
+{% block content %}
+
+
+<div class="page-titles" align="center">
+          <div class="col-md-12 col-12" align="center" >
+            <h3 class="text-themecolor mb-0" style=" text-transform: uppercase;">Book Shipment</h3>
+            <!--<ol class="breadcrumb mb-0">
+              <li class="breadcrumb-item">
+                <a href="javascript:void(0)">Home</a>
+              </li>
+              <li class="breadcrumb-item active">Row Separator</li>
+            </ol>-->
+          </div>
+</div>
+<div class="container-fluid" align="center">
+<div class="row" style="text-transform: uppercase;">
+            <div class="col-12">
+              <div class="card" align="left">
+                <div class="card-body">
+                  <h5 style="font-weight: 600;">Shipment Details</h5>
+                  <!--<h6 class="card-subtitle">
+                    To use add <mark><code>.r-separator</code></mark> class in
+                    the form with form styling.
+                  </h6>-->
+                </div>
+                <form method="POST" action="{% url 'book_shipment'%}" id="book_shipment_button">
+                {% csrf_token %}
+                    <div style="display: None"><input id="shipper_user" name="shipper_user" value="{{request.user.id}}"></div>
+                  <div class="card-body">
+                      <div class="row">
+                          <div class="col-sm-12 col-lg-4">
+                              <div class="form-group mb-3 row">
+                                  <div class="input-group">
+                                      {{form.length}}{{form.width}}{{form.height}}
+                                      <div style="position: relative;z-index: 1;">{{form.unit_size}}
+                                      </div>
+
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="col-sm-12 col-lg-4">
+                              <div class="form-group mb-3 row">
+                                  <div class="input-group">
+                                      {{form.weight}}
+                                      <div style="position: relative;z-index: 1;">{{form.unit_weight}}
+                                      </div>
+
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="col-sm-12 col-lg-4">
+                              <div class="form-group mb-3 row">
+                                  <div class="input-group">
+                                      {{form.quantity}}
+
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                       <div id="alertMessage" class="alert-message"></div>
+                             <div class="alert alert-danger" id="error_message" style="display: None;">
+
+                                    </div>
+                            {% if success_message %}
+                              <div class="alert alert-success">
+                                        <!--<strong>{{ field|capfirst }}:</strong>-->
+                                        {{ success_message }}
+                                    </div>
+                            {% endif %}
+                            {% for field, errors in form.errors.items %}
+                                    <div class="alert alert-danger">
+                                        <!--<strong>{{ field|capfirst }}:</strong>-->
+                                        {% for error in errors %}
+                                        {{field}} : {{ error|escape }}
+                                        {% endfor %}
+                                    </div>
+                                    {% endfor %}
+                  </div>
+                    <div class="mb-4">
+
+
+                        <h5 class="pl-4" style="font-weight: 600;">Pick up information</h5>
+                        <!--<h6 class="card-subtitle">
+                          To use add <mark><code>.r-separator</code></mark> class in
+                          the form with form styling.
+                        </h6>-->
+
+                        <hr>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-12 col-lg-6">
+                                    <div class="form-group mb-3 row">
+                                        <div class="input-group">
+                                            {{form.pickup_date}}
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-sm-12 col-lg-6">
+                                    <div class="form-group mb-3">
+                                        <input
+                                                type="text" name="pickup_address"
+                                                class="form-control"
+                                                onclick="openMap(this, 'id_pickup_location', 'id_pickup_city')"
+                                                placeholder="pickup location"
+                                                id="id_pickup_address"
+                                                value='{{shipment.pickup_address}}'>
+                                    </div>
+                                    <div style="display: None">{{form.pickup_location}}</div>
+                                </div>
+                                <div class="col-sm-12 col-lg-6">
+                                    <div class="form-group mb-3 ">
+                                        {{form.pickup_city}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+
+
+                        <h5 class="pl-4" style="font-weight: 600;">Drop off information</h5>
+                        <!--<h6 class="card-subtitle">
+                          To use add <mark><code>.r-separator</code></mark> class in
+                          the form with form styling.
+                        </h6>-->
+
+                        <hr>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-12 col-lg-6">
+                                    <div class="form-group mb-3">
+                                        <input
+                                                type="text" name="drop_off_address"
+                                                class="form-control"
+                                                onclick="openMap(this, 'id_drop_off_location', 'id_drop_off_city')"
+                                                placeholder="drop off location"
+                                                id="id_drop_off_address"
+                                                value='{{shipment.drop_off_address}}'>
+                                    </div>
+                                    <div style="display: None">{{form.drop_off_location}}</div>
+                                </div>
+                                <div class="col-sm-12 col-lg-6">
+                                    <div class="form-group mb-3 ">
+                                        {{form.drop_off_city}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+
+
+                        <h5 class="pl-4" style="font-weight: 600;">Estimate Quotation</h5>
+                        <!--<h6 class="card-subtitle">
+                          To use add <mark><code>.r-separator</code></mark> class in
+                          the form with form styling.
+                        </h6>-->
+
+                        <hr>
+                        <div class="card-body">
+                            <div class="row">
+                             <div class="col-sm-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div style="position: relative;z-index: 2;">
+                      <button  onclick="get_estimate()" class="form-control btn btn-light-info text-info font-weight-medium" type="button">
+
+                        Generate Estimate
+                      </button>
+                                             </div>
+                      {{form.estimated_quotation}}
+                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                  <div class="p-3">
+                    <div class="form-group text-end">
+                         {%if shipment%}
+                                <input type="hidden" name="shipment_id" value="{{shipment.id}}">
+                                <input type="hidden" name="edit_shipment" value="{{shipment.id}}">
+                              <button type="submit" class="
+                          btn btn-info
+                          rounded-pill
+                          px-4
+                          waves-effect waves-light
+                        ">
+                      Find Carriers
+                      </button>
+                                {% else %}
+                                  <button type="submit" class="
+                          btn btn-info
+                          rounded-pill
+                          px-4
+                          waves-effect waves-light
+                        ">
+                        Save
+                      </button>
+                        <button type="submit" class="
+                          btn btn-dark
+                          rounded-pill
+                          px-4
+                          waves-effect waves-light
+                        ">
+                        Cancel
+                      </button>
+
+                                {% endif %}
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+
+    <div id="mapModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeMapModal()">X</span>
+            <div id="map"></div>
+        </div>
+    </div>
+
+</div>
+
+
+{% endblock %}
+
+</body>
+</html>
+

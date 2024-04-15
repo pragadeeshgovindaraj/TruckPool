@@ -1,0 +1,343 @@
+{% extends "shipper/shipper_view.html" %}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TruckPool</title>
+</head>
+<body>
+{% block content %}
+
+<div class="container-fluid">
+    {% if book_message %}
+    <div class="alert alert-success">
+                 {{ book_message}}                          <!--<strong>{{ field|capfirst }}:</strong>-->
+            </div>
+
+    {% endif %}
+<div class="pricingSummary">
+    <div class="freightShipmentSummary pricingView">
+        <div class="flex-container and-smallJustifyStart and-smallAlignStretch and-smallColumn and-mediumRow freightShipmentSummary-infoContainer">
+            <div class="flex-item flex-medium-12 freightShipmentSummary-info">
+                <div class="flex-container and-smallJustifyBetween and-smallAlignCenter and-mediumAlignStart and-smallRow and-nowrap">
+                    <div class="flex-item flex-small-8 flex-medium-3 shipmentInfo">
+                        <div class="shipmentInfo">
+                            <div class="shipmentSummary-shipmentInfo-item"><h4
+                                    class="labelHeading shipmentSummary-heading labelHeading--dense">Your Shipment</h4>
+                            </div>
+                            <div class="shipmentSummary-shipmentInfo-item">
+                                <div class="shipmentSummary-shipmentInfoTitle">ID : {{shipment.id}}</div>
+                            </div>
+                            <div class="shipmentSummary-shipmentInfo-item">
+                                <div class="shipmentSummary-shipmentInfoTitle">{{shipment.quantity}} Package(s)</div>
+                            </div>
+                            <div class="shipmentSummary-shipmentInfo-item"><p
+                                    class="helperTextHeader summaryInfo-accessorials">{{shipment.length}} x {{shipment.width}} x {{shipment.height}} , {{shipment.weight}}kg</p></div>
+                        </div>
+                    </div>
+                    <div class="flex-item flex-medium-3 freightShipmentSummary-routeInfoContainer">
+                        <div class="shipmentSummary-routeInfo"><h4
+                                class="labelHeading shipmentSummary-heading labelHeading--dense">Pickup &amp;
+                            Delivery</h4>
+                            <div class="flex-container and-smallColumn and-mediumColumn and-largeColumn locationRoute">
+                                <div class="flex-container and-smallRow and-mediumRow and-largeRow and-nowrap origin">
+                                    <div class="flex-item and-auto">
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                                 viewBox="0 0 384 512" width="20px" height="20px" fill="red">
+                                                                <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                                                <path d="M172.3 501.7C27 291 0 269.4 0 192 0 86 86 0 192 0s192 86 192 192c0 77.4-27 99-172.3 309.7-9.5 13.8-29.9 13.8-39.5 0zM192 272c44.2 0 80-35.8 80-80s-35.8-80-80-80-80 35.8-80 80 35.8 80 80 80z"/>
+                                                            </svg>
+                                    </div>
+                                    <div class="flex-item routeLabel"><span>{{shipment.pickup_address}}</span>
+                                    </div>
+                                </div>
+                                <div class="flex-container and-smallRow and-mediumRow and-largeRow and-nowrap destination">
+                                    <div class="flex-item and-auto">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                                 viewBox="0 0 384 512" width="20px" height="20px" fill="green">
+                                                                <path d="M172.3 501.7C27 291 0 269.4 0 192 0 86 86 0 192 0s192 86 192 192c0 77.4-27 99-172.3 309.7-9.5 13.8-29.9 13.8-39.5 0zM192 272c44.2 0 80-35.8 80-80s-35.8-80-80-80-80 35.8-80 80 35.8 80 80 80z"/>
+                                                            </svg>
+                                    </div>
+                                    <div class="flex-item routeLabel"><span>{{shipment.drop_off_address}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-item flex-medium-2 freightShipmentSummary-routeInfoContainer">
+                        <!--<div><h4 class="labelHeading shipmentSummary-heading labelHeading&#45;&#45;dense">Estimate (CAD)</h4>
+                            <div class="freightShipmentSummary-shippingServices">
+                            {{shipment.estimated_quotation}}
+                            </div>
+                        </div>-->
+                    </div>
+                    <div class="flex-item flex-medium-2 freightShipmentSummary-routeInfoContainer">
+                        <div><h4 class="labelHeading shipmentSummary-heading labelHeading--dense">Estimate (CAD)</h4>
+                            <div class="freightShipmentSummary-shippingServices">
+                            ${{shipment.estimated_quotation}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-item flex-small-4 flex-medium-2 shipmentActionsContainer">
+                        <div>
+                            <div class="shipmentSummary-editButton">
+                                <button class="button button--large inlineButton button-content inlineButton--large sel-editShipment"
+                                        type="button">
+                                    <div class="button-content"><span><span class=""><a href="{% url 'edit_shipment' shipment_id=shipment.id  %}">Edit Details</a></span></span></div>
+                                </button>
+                            </div><!--
+                            <div class="shipmentSummary-editButton&#45;&#45;abbreviated">
+                                <button class="button button&#45;&#45;large inlineButton button-content inlineButton&#45;&#45;large sel-editShipment"
+                                        type="button">
+                                    <div class="button-content"><span><span class="">Edit</span></span></div>
+                                </button>
+                            </div>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+     {% if carrier_plans %}
+            <div class="">
+                    <div class="small-6     columns">
+                        <div class="resultsAndPagination">
+                            <div class="resultsCount">{{num_plans}} Available Carriers</div>
+
+                        </div>
+                    </div>
+                <div class="small-6     columns" align="right">
+                        <div class="">
+        <div class="btn-group" role="group">
+                      <button id="btnGroupDrop1" type="button" class="btn btn-light-secondary text-secondary font-weight-medium dropdown-toggle show" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        Sort By
+                      </button>
+                      <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 39px);" data-popper-placement="bottom-start">
+                        <a class="dropdown-item" href="{% url 'shipment_details'  shipment_id=shipment.id sort_by='Q' %}">Quote</a>
+                        <a class="dropdown-item" href="{% url 'shipment_details'  shipment_id=shipment.id sort_by='R' %}">Rating</a>
+                      </div>
+                    </div>
+
+                        </div>
+                    </div>
+                </div>
+            <div class="">
+                    <div class="small-12     columns" >
+                        <div class="flex-container and-largeAlignStretch and-smallRow and-mediumRow and-largeRow listings-list scrollable-container">
+                            <div class="flex-container and-largeAlignStart and-smallRow and-mediumRow and-largeRow listingsHeader hideForMobile" >
+                                 <!--<div class="flex-item flex-large-2">
+                                     <div class="flex-container and-smallRow and-mediumRow and-largeRow">
+                                         Carrier ID
+                                     </div>
+                                 </div>-->
+                                <div class="flex-item flex-large-4">
+                                    <div class="flex-container and-smallRow and-mediumRow and-largeRow">
+                                        <div class="flex-item flex-large-6 header-pickup">
+
+                                                <div class="button-content"><span><span
+                                                        class="inlineButton-text--hideInMobile">Start</span></span></div>
+
+                                        </div>
+                                        <div class="flex-item flex-large-6 header-delivery">
+                                                <div class="button-content"><span><span
+                                                        class="inlineButton-text--hideInMobile">End</span></span></div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex-item flex-large-3">
+                                    <div class="flex-container and-largeAlignStart and-smallRow and-mediumRow and-largeRow">
+                                        <div class="flex-item flex-large-4 header-goods">Date</div>
+                                        <div class="flex-item flex-large-4 header-ref-numbers">Quote</div>
+                                        <!--<div class="flex-item flex-large-4 header-contact">date</div>-->
+                                    </div>
+                                </div>
+
+                                <div class="flex-item flex-large-1 header-status">Status</div>
+
+                                <div class="flex-item flex-large-1 header-status">Rating</div>
+                            </div>
+
+                            {% for plan in carrier_plans %}
+                            <div class="panel listing"  >
+                                <!--<div class="flex-item flex-small-11 flex-medium-12 flex-large-2">
+                                    <div class="listing-summaryCard">
+                                        <div class="flex-container and-smallRow and-mediumRow and-largeRow">
+                                             <div class="flex-item flex-small-11 flex-large-12 route-location">
+                                            <strong>{{plan.carrier_user.id}}, {{plan.carrier_user.first_name}}{{plan.carrier_user.last_name}}</strong>
+                                             </div>
+
+                                        </div>
+                                    </div>
+                                </div>-->
+                                <div class="flex-item flex-small-11 flex-medium-12 flex-large-4"><a
+                                        href="#" class="viewLink">
+                                    <div class="listing-summaryCard">
+                                        <div class="flex-container and-smallRow and-mediumRow and-largeRow">
+                                            <div class="flex-item flex-small-11 flex-medium-4 flex-large-6 route">
+                                                <div class="flex-container and-smallRow and-mediumRow and-largeRow">
+                                                    <div class="flex-item flex-small-11 flex-large-12 route-location">
+                                                        <div class="flex-container and-smallAlignStart and-largeAlignStart and-smallRow and-mediumRow and-largeRow and-nowrap">
+                                                           <svg xmlns="http://www.w3.org/2000/svg"
+                                                                 viewBox="0 0 384 512" width="20px" height="20px" fill="red">
+                                                                <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                                                <path d="M172.3 501.7C27 291 0 269.4 0 192 0 86 86 0 192 0s192 86 192 192c0 77.4-27 99-172.3 309.7-9.5 13.8-29.9 13.8-39.5 0zM192 272c44.2 0 80-35.8 80-80s-35.8-80-80-80-80 35.8-80 80 35.8 80 80 80z"/>
+                                                            </svg>
+                                                            <span>{{plan.start_city}}</span></div>
+                                                    </div>
+                                                   <!-- <div class="flex-item flex-small-12 route-timeframe">
+                                                        <div class="flex-container and-smallAlignStart and-largeAlignStart and-smallRow and-mediumRow and-largeRow and-nowrap">
+                                                            <span class="route-timeframe-text">{{shipment.pickup_date}}</span></div>
+                                                    </div>-->
+                                                </div>
+                                            </div>
+                                            <div class="flex-item flex-small-12 flex-medium-4 flex-large-6">
+                                                <div class="flex-container and-largeAlignStart and-smallRow and-mediumRow and-largeRow">
+                                                    <div class="flex-item flex-small-12 route-location">
+                                                        <div class="flex-container and-smallAlignStart and-largeAlignStart and-smallRow and-mediumRow and-largeRow and-nowrap">
+                                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                                 viewBox="0 0 384 512" width="20px" height="20px" fill="green">
+                                                                <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                                                <path d="M172.3 501.7C27 291 0 269.4 0 192 0 86 86 0 192 0s192 86 192 192c0 77.4-27 99-172.3 309.7-9.5 13.8-29.9 13.8-39.5 0zM192 272c44.2 0 80-35.8 80-80s-35.8-80-80-80-80 35.8-80 80 35.8 80 80 80z"/>
+                                                            </svg>
+                                                            <span>{{plan.end_city}}</span></div>
+                                                    </div>
+                                                    <div class="flex-item flex-small-12 route-timeframe">
+                                                        <div class="flex-container and-smallAlignStart and-largeAlignStart and-smallRow and-mediumRow and-largeRow and-nowrap">
+                                                            <span class="route-timeframe-text"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a></div>
+                                <div class="flex-item flex-small-12 flex-medium-8 flex-large-3"><a
+                                        href="#">
+                                    <div class="listing-summaryCard">
+                                        <div class="flex-container and-smallRow and-mediumRow and-largeRow">
+                                            <div class="flex-item flex-small-12 flex-medium-4 flex-large-2 listing-summaryCard">
+                                                <!--<div class="flex-item flex-small-12 flex-large-12 goods-topHalf">
+                                                    <div class="flex-container and-smallRow and-mediumRow and-largeRow and-nowrap">
+                                                        <div class="labelValue listingId sel-listingId"><label
+                                                                id="LabelValue-2-label"
+                                                                for="LabelValue-2-value">ID</label><span
+                                                                class="labelValue-delimiter">:</span><span
+                                                                id="LabelValue-2-value"
+                                                                aria-labelledby="LabelValue-2-label"
+                                                                class="labelValue-value">{{shipment.id}}</span></div>
+                                                    </div>
+                                                    <div class="flex-container and-smallRow and-mediumRow and-largeRow and-nowrap"></div>
+                                                </div>-->
+                                                <div class="flex-item flex-small-12 flex-large-12 goods-bottomHalf">
+                                                    <div class="flex-container and-largeAlignStart and-smallRow and-mediumRow and-largeRow">
+                                                        <div class="flex-item flex-large-12 refNumbers-topHalf">{{plan.date_of_plan}}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="flex-item flex-small-12 flex-medium-4 flex-large-4 listing-referenceNumbers" align="right">
+                                                <div class="flex-item flex-large-12 refNumbers-topHalf" id="calculated_quote"><strong>${{plan.calculated_quote}}</strong></div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </a></div>
+                                <div class="flex-item flex-small-12 flex-medium-2 flex-large-1">
+                                    <div class="flex-container and-smallRow and-mediumRow and-largeRow status status">
+                                        <div class="flex-item flex-small-6 status-topHalf">
+                                            <div class="status-label" data-selenium-status="Active">
+                                                <div class="status-label-text">{{plan.status}}</div>
+                                                <div></div>
+                                            </div>
+                                        </div>
+                                       <!-- <div class="flex-item flex-small-12 status-bottomHalf " id="id_shipper_action">
+                                            <button onclick="book_shipper({{plan.carrier_user_id}}, {{shipment.id}})" id={{plan.id}}
+                                                    class="btn btn-primary shipper_book" type="button">
+                                      Book
+                                            </button>
+                                        </div>-->
+
+
+                                    </div>
+                                </div>
+                                     <div class="flex-item flex-small-12 flex-medium-3 flex-large-1">
+                                    <div class="flex-container and-smallRow and-mediumRow and-largeRow status status">
+                                        <div class="flex-item flex-small-12 status-topHalf">
+                                            <div class="status-label" data-selenium-status="Active">
+                                                <div class="status-label-text">{{plan.rating}}</div>
+                                                <div></div>
+                                            </div>
+                                        </div>
+                                       <!-- <div class="flex-item flex-small-12 status-bottomHalf " id="id_shipper_action">
+                                            <button onclick="book_shipper({{plan.carrier_user_id}}, {{shipment.id}})" id={{plan.id}}
+                                                    class="btn btn-primary shipper_book" type="button">
+                                      Book
+                                            </button>
+                                        </div>-->
+
+
+                                    </div>
+
+                                </div>
+                                <div class="flex-item flex-small-12 flex-medium-3 flex-large-3">
+                                    <div class="pt-3">
+<div id="id_shipper_action_{{plan.id}}">
+        {%if booked_plan and booked_plan.carrier_plan_id == plan.id %}
+            requested
+        {% else %}
+        <button onclick="book_shipper({{plan.calculated_quote}}, {{plan.carrier_user_id}}, {{shipment.id}}, {{plan.id}})"
+                id="{{plan.id}}" class="btn btn-primary shipper_book" type="button"  {%if booked_plan %} disabled {% endif %}>
+            Book
+        </button>
+        {% endif %}
+
+        <button onclick="view_carrier_profile({{plan.carrier_user_id}})" id="id_btn_profile" class="btn btn-primary shipper_book" type="button">
+            View Profile
+        </button>
+    </div>
+
+                                </div>
+
+                                </div>
+
+
+
+
+                            </div>
+
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+    {% endif %}
+    </div>
+
+<div class="alert-container">
+  <div class="alert hidden" id="message">Your alert message here</div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Carrier Profile</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="modalContent">
+        <!-- Content will be loaded here -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}
+
+</body>
+</html>
