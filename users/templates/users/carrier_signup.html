@@ -1,0 +1,270 @@
+{% extends "users/base1.html" %}
+{% load static %}
+<html lang="en">
+<head>
+    <title>TruckPool</title>
+</head>
+
+<body>
+{% block content %}
+<section>
+    <div class="container-fluid shipper-register-container"  id="f">
+        <div class="row" >
+              <div class="col-6 col-sm-9 col-md-7 col-lg-6 text-center p-0 mt-3 mb-2">
+
+                <div class="container">
+                    <div class="card">
+
+                        <div class="form">
+                            <div class="left-side">
+                                <div class="left-heading">
+                                    <h2>Carrier Registration</h2>
+                                </div>
+                                <div class="steps-content">
+                                    <h3>Step <span class="step-number">1</span></h3>
+                                    <p class="step-number-content active">Enter your contact information.</p>
+                                    <p class="step-number-content d-none">Add your company information.</p>
+                                    <p class="step-number-content d-none">Configure your account. </p>
+                                    <p class="step-number-content d-none"></p>
+                                </div>
+                                <ul class="progress-bar-cus">
+                                    <li class="active">Contact Information</li>
+                                    <li>Company Information</li>
+                                    <li>Account Information</li>
+                                    <li>Finished</li>
+                                </ul>
+
+
+                            </div>
+
+                            <div class="right-side">
+                                  <form method="post" id="carrierForm" action="{% url 'carrier_signup' %}">
+                                       {% csrf_token %}
+                                <div class="main active">
+                                  <!--  <small><i class="fa fa-smile-o"></i></small>-->
+                                    {% for field, errors in user_message.items %}
+                                    <div class="alert alert-danger">
+                                        <!--<strong>{{ field|capfirst }}:</strong>-->
+                                        {% for error in errors %}
+                                        {{ error|escape }}
+                                        {% endfor %}
+                                    </div>
+                                    {% endfor %}
+                                    <div class="text">
+                                        <h2>Contact Information</h2>
+                                        <p>Add your contact details</p>
+                                    </div>
+                                    <div class="input-text">
+                                        <div class="input-div">
+                                          {{carrier_form.first_name}}
+                                            <span>First Name</span>
+                                        </div>
+                                        <div class="input-div">
+                                            {{carrier_form.last_name}}
+                                            <!--<input type="text" required>-->
+                                            <span>Last Name</span>
+                                        </div>
+                                    </div>
+                                    <div class="input-text">
+                                        <div class="input-div">
+                                            <!--<input type="text" required>-->
+                                            {{carrier_form.contact_no}}
+                                            <span>Phone number</span>
+                                        </div>
+                                      <!--  <div class="input-div">
+                                            <input type="text" required require>
+                                            <span>E-mail Address</span>
+                                        </div>-->
+                                    </div>
+                                    <!--<div class="input-text">
+                                        <div class="input-div">
+                                            <select>
+                                                <option>Select Country</option>
+                                                <option>India</option>
+                                                <option>France</option>
+                                                <option>UK</option>
+                                                <option>USA</option>
+                                                <option>Germany</option>
+                                                <option>Russia</option>
+                                                <option>China</option>
+                                                <option>Japan</option>
+                                                <option>Pakistan</option>
+                                            </select>
+
+                                        </div>
+                                        <div class="input-div">
+
+                                            <select>
+                                                <option>Select City</option>
+                                                <option>New Delhi</option>
+                                                <option>Paris</option>
+                                                <option>London</option>
+                                                <option>Washington D.C.</option>
+                                                <option>Berlin</option>
+                                                <option>Moscow</option>
+                                                <option>Bejing</option>
+                                                <option>Tokyo</option>
+                                                <option>Islamabad</option>
+                                            </select>
+                                        </div>
+                                    </div>-->
+                                    <div class="buttons">
+                                        <button class="next_button">Next Step</button>
+                                    </div>
+                                </div>
+                                <div class="main">
+                                    <!--<small><i class="fa fa-smile-o"></i></small>-->
+                                    <div class="text">
+                                        <h2>Company Information</h2>
+                                        <p>Enter your Company Information</p>
+                                    </div>
+                                    <div class="input-text">
+                                        <div class="input-div">
+                                            <!--<input type="text" required require>-->
+                                            {{carrier_form.company_name}}
+                                            <span>Company name</span>
+                                        </div>
+                                    </div>
+                                    <div class="input-text">
+                                        <div class="input-div">
+                                            <!--<input type="text" required require>-->
+                                            {{carrier_form.vehicle_type}}
+                                            <!--<span>Vehicle Type</span>-->
+                                        </div>
+                                    </div>
+                                    <div class="input-text">
+                                          <div class="input-div">
+                                            <!--<input type="text" required>-->
+                                            {{carrier_form.address}}
+                                            <span>Address</span>
+                                        </div>
+                                    </div>
+                                    <div class="input-text">
+                                        <div class="input-div">
+                                            {{carrier_form.postal_code}}
+                                            <span>Postal Code</span>
+                                        </div>
+                                    </div>
+                                    <!--<div class="input-text">
+                                        <div class="input-div">
+                                            <select>
+                                                <option>Select Course</option>
+                                                <option>BCA</option>
+                                                <option>B-TECH</option>
+                                                <option>BA</option>
+                                                <option>B-COM</option>
+                                                <option>B-SC</option>
+                                                <option>MBA</option>
+                                                <option>MCA</option>
+                                                <option>M-COM</option>
+                                                <option>M-TECH</option>
+                                            </select>
+                                        </div>
+                                    </div>-->
+                                    <div class="buttons button_space">
+                                        <button class="back_button">Back</button>
+                                        <button class="next_button">Next Step</button>
+                                    </div>
+                                </div>
+                                <div class="main">
+                                   <!-- <small><i class="fa fa-smile-o"></i></small>-->
+                                    <div class="text">
+                                        <h2>Account Information</h2>
+                                        <p>Configure Your Account</p>
+                                    </div>
+                                    <div class="input-text">
+                                        <div class="input-div">
+                                            <!--<input type="text" required require>-->
+                                               {{user_form.email}}
+                                            <span>Email</span>
+                                        </div>
+                                        <div class="input-div">
+                                             {{user_form.username}}
+                                            <span>Username</span>
+                                        </div>
+                                    </div>
+                                    <div class="input-text">
+                                        <div class="input-div">
+                                            {{user_form.password1}}
+                                            <span>Password</span>
+                                        </div>
+                                        <div class="input-div">
+                                             {{user_form.password2}}
+                                            <span>Re-Type Password</span>
+                                        </div>
+                                    </div>
+                                    <!--<div class="input-text">
+                                        <div class="input-div">
+                                            <input type="text" required>
+                                            <span>Experience 3</span>
+                                        </div>
+                                        <div class="input-div">
+                                            <input type="text" required>
+                                            <span>Position</span>
+                                        </div>
+                                    </div>-->
+                                    <div class="buttons button_space">
+                                        <button class="back_button">Back</button>
+                                        <button id="registerCarrier" type="submit">Submit</button>
+                                    </div>
+                                </div>
+
+
+                                <!--<div class="main">
+                                    <small><i class="fa fa-smile-o"></i></small>
+                                    <div class="text">
+                                        <h2>User Photo</h2>
+                                        <p>Upload your profile picture and share yourself.</p>
+                                    </div>
+                                    <div class="user_card">
+                                        <span></span>
+                                        <div class="circle">
+                                            <span><img src="https://i.imgur.com/hnwphgM.jpg"></span>
+
+                                        </div>
+                                        <div class="social">
+                                            <span><i class="fa fa-share-alt"></i></span>
+                                            <span><i class="fa fa-heart"></i></span>
+
+                                        </div>
+                                        <div class="user_name">
+                                            <h3>Peter Hawkins</h3>
+                                            <div class="detail">
+                                                <p><a href="#">Izmar,Turkey</a>Hiring</p>
+                                                <p>17 last day . 94Apply</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="buttons button_space">
+                                        <button class="back_button">Back</button>
+                                        <button class="submit_button">Submit</button>
+                                    </div>
+                                </div>-->
+                                <div class="main" id="success">
+                                    <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                                        <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+                                        <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                                    </svg>
+
+                                    <div class="text congrats">
+                                        <h2>Congratulations!</h2>
+                                        <p>
+                                         Carrier Registered Successfully
+                                        </p>
+                                    </div>
+                                </div>
+
+                       </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+</body>
+</html>

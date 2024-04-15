@@ -1,0 +1,168 @@
+{% extends "users/base.html" %}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TruckPool</title>
+</head>
+<body>
+{% block content %}
+
+  <!-- about section -->
+  <section class="about_section ">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <h2 class="heading_style">
+            About Us
+          </h2>
+          <p>
+            <!--adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+            quis nostrud exercitation ullamco-->
+          </p>
+        </div>
+
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="about_img-box">
+
+            <img src="{% static 'images/a-truck.jpg'%}" alt="" class="img-fluid">
+          </div>
+        </div>
+        <div class="col-md-6 about_detail-container">
+          <div class="about_detail-box">
+            <h3>
+              Our Mission
+            </h3>
+            <p>
+              At Truckpool, we're revolutionizing the road logistics service industry in response to the pivotal challenges faced by shippers and carriers dealing with Less than Truckload (LTL) shipments. We've created a leading-edge online platform designed as a central hub to connect stakeholders, offering a practical solution for the underutilized space in trucks, reducing costs, and boosting efficiency.
+            </p>
+            <div class="d-flex  justify-content-end">
+              <a href="" class="quote-btn about-btn">
+                <img src="{% static 'images/white-next.png' %}" alt="">
+                <span>
+                  About More
+                </span>
+
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- end about section -->
+
+  <!-- service section -->
+  <section class="service_section layout_padding">
+    <div class="container">
+      <div class="d-flex justify-content-center">
+        <h2 class="heading_style">
+          Our Shipping Process
+        </h2>
+      </div>
+      <div class="row layout_padding2-top">
+        <div class="col-md-3">
+          <div class="service_img-box s-b-1">
+            <img src="{% static 'images/service-1.jpg' %}" alt="">
+            <div class="d-flex">
+              <h3>
+                PLANNING
+
+              </h3>
+            </div>
+          </div>
+        <!--  <div class="service-detail">
+            <p>
+              aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+              dolore eu fugiat nulla pariatur.Excepteur
+            </p>
+            <div class="d-flex justify-content-end">
+              <a href="" class="service-btn">
+                See More
+              </a>
+            </div>
+          </div>-->
+        </div>
+        <div class="col-md-3">
+          <div class="service_img-box s-b-2">
+            <img src="{% static 'images/service-2.jpg'%}" alt="">
+            <div class="d-flex">
+              <h3>
+                MATCHING
+
+
+              </h3>
+            </div>
+          </div>
+        <!--  <div class="service-detail">
+            <p>
+              aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+              dolore eu fugiat nulla pariatur.Excepteur
+            </p>
+            <div class="d-flex justify-content-end">
+              <a href="" class="service-btn">
+                See More
+              </a>
+            </div>
+          </div>-->
+        </div>
+        <div class="col-md-3">
+          <div class="service_img-box s-b-3">
+            <img src="{% static 'images/service-3.jpg'%}" alt="">
+            <div class="d-flex">
+              <h3>
+                PAYMENT
+
+
+              </h3>
+            </div>
+          </div>
+       <!--   <div class="service-detail">
+            <p>
+              aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+              dolore eu fugiat nulla pariatur.Excepteur
+            </p>
+            <div class="d-flex justify-content-end">
+              <a href="" class="service-btn">
+                See More
+              </a>
+            </div>
+          </div>-->
+        </div>
+        <div class="col-md-3">
+          <div class="service_img-box s-b-3">
+            <img src="{% static 'images/service-4.jpg'%}" alt="">
+            <div class="d-flex">
+              <h3>
+                SHIPPING
+
+
+              </h3>
+            </div>
+          </div>
+          <!--<div class="service-detail">
+            <p>
+              aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+              dolore eu fugiat nulla pariatur.Excepteur
+            </p>
+            <div class="d-flex justify-content-end">
+              <a href="" class="service-btn">
+                See More
+              </a>
+            </div>
+          </div>-->
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- end service section -->
+
+
+{% endblock %}
+
+</body>
+</html>

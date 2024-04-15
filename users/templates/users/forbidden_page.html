@@ -1,0 +1,33 @@
+{% extends "users/base1.html" %}
+{% load static %}
+<html lang="en">
+<head>
+    <title>TruckPool</title>
+</head>
+
+<body>
+{% block content %}
+<section>
+    <div class="container-fluid shipper-register-container">
+        <div class="row" >
+              <div class="col-6 col-sm-9 col-md-7 col-lg-6 text-center p-0 mt-3 mb-2">
+
+                  <div class="container">
+
+                    <!-- 404 Error Text -->
+                    <div class="text-center">
+                        <div class="error mx-auto" data-text="404">403</div>
+                        <p class="lead text-gray-800 mb-5">You Are not allowed</p>
+                        <!--<p class="text-gray-500 mb-0">It looks like you found a glitch in the matrix...</p>-->
+                        <a href="{% url 'index'%}">&larr; Back to Home</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+</body>
+</html>

@@ -1,0 +1,91 @@
+{% extends "users/base1.html" %}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TruckPool - Signin </title>
+
+</head>
+<body>
+{% block content %}
+<section>
+   <div class="container-fluid shipper-register-container"  id="h">
+              <div class="col-12 col-sm-9 col-md-7 col-lg-6 text-center p-0 mt-3 mb-2">
+
+                <div class="container">
+                    <div class="card">
+
+                        <div class="form">
+                            <div class="left-side">
+                                <div class="left-heading signin">
+                                  <h4>Signin to your account</h4>
+                                </div>
+                                <div class="steps-content-signin">
+                                    <h4>The smart way
+to ship less,
+for less.</h4>
+
+                                </div>
+<!--                                <ul class="">
+                                    <li>
+</li>
+                                </ul>-->
+
+
+                            </div>
+
+                            <div class="right-side">
+                                <form method="post" id="signinForm" action="{% url 'signin' %}">
+                                        {% csrf_token %}
+                                <div class="main active" id="selection">
+
+                                    {% for field, errors in user_message.items %}
+
+
+                                    <div class="alert alert-danger">
+                                        <!--<strong>{{ field|capfirst }}:</strong>-->
+                                        {% for error in errors %}
+                                        {{ error|escape }}
+                                        {% endfor %}
+                                    </div>
+
+                                    {% endfor %}
+                                    <div class="input-text">
+                                     </div>
+                                       <div class="text">
+                                        <h2>Welcome Back</h2>
+                                       <!-- <p>What type of shipper you are?</p>-->
+                                    </div>
+                                     <div class="input-text">
+                                         {{form.username}}
+                                     </div>
+                                    <div class="input-text">
+                                        {{form.password}}
+                                    </div>
+                                     <div class="input-text">
+                                     </div>
+                                     <div class="input-text">
+                                     </div>
+                                    <div class="buttons ">
+                                     <button type="submit" class="btn btn-primary ">Sign in</button>
+                                    </div>
+
+                                    <div class="text-center">
+                                    <p> New To TruckPool? </p>
+                                    <a class="small" href="{% url 'shipper_signup'%}">Join Us</a>
+                                </div>
+                                </div>
+
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</section>
+{% endblock %}
+
+</body>
+</html>

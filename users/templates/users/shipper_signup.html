@@ -1,0 +1,236 @@
+{% extends "users/base1.html" %}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TruckPool</title>
+
+</head>
+<body>
+{% block content %}
+<section>
+   <div class="container-fluid shipper-register-container"  id="h">
+        <div class="row" >
+              <div class="col-6 col-sm-9 col-md-7 col-lg-6 text-center p-0 mt-3 mb-2">
+
+                <div class="container">
+                    <div class="card">
+
+                        <div class="form">
+                            <div class="left-side">
+                                <div class="left-heading">
+                                    <h4>Join TruckPool</h4>
+                                </div>
+                                <div class="steps-content">
+                                    <h3>Step <span class="step-number">1</span></h3>
+                                    <p class="step-number-content active">Select Type</p>
+                                    <p class="step-number-content d-none">Enter Information</p>
+                                    <p class="step-number-content d-none"></p>
+                                </div>
+                                <ul class="progress-bar-cus">
+                                    <li class="active">Select your type</li>
+                                    <li>Information</li>
+                                    <li>Finished</li>
+                                </ul>
+
+
+                            </div>
+
+                            <div class="right-side">
+
+                                <div class="main active" id="selection">
+
+                                    {% for field, errors in user_message.items %}
+
+
+                                    <div class="alert alert-danger">
+                                        <!--<strong>{{ field|capfirst }}:</strong>-->
+                                        {% for error in errors %}
+                                        {{ error|escape }}
+                                        {% endfor %}
+                                    </div>
+
+                                    {% endfor %}
+                                    <div class="input-text">
+                                     </div>
+                                       <div class="text">
+                                        <h2>Shipper Type</h2>
+                                        <p>What type of shipper you are?</p>
+                                    </div>
+                                     <div class="input-text">
+                                     </div>
+                                    <div class="input-text">
+                                        <div class="input-div">
+                                            <div class="btn-group btn-group-lg" role="group" aria-label="Basic example">
+
+                                                <button type="button" id="individual" class="btn btn-default select-btn">Individual
+                                                </button>
+                                                <button type="button" id="business" class="btn btn-default select-btn">Business
+                                                </button>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                     <div class="input-text">
+                                     </div>
+                                     <div class="input-text">
+                                     </div>
+                                    <div class="buttons">
+                                        <button id="proceed">Proceed</button>
+                                    </div>
+                                </div>
+                                <div class="main" id="shipperIndividual">
+                                    <form method="post" id="shipperForm" action="{% url 'shipper_signup' %}">
+                                        {% csrf_token %}
+
+                                         <div class="text">
+                                        <h5>Contact Information</h5>
+                                        <p>Add your contact details</p>
+                                    </div>
+                                        <div class="input-text">
+                                            <div class="input-div">
+                                                {{shipper_ind_form.first_name}}
+                                                <span>First Name</span>
+                                            </div>
+                                            <div class="input-div">
+                                                {{shipper_ind_form.last_name}}
+                                                <!--<input type="text" required>-->
+                                                <span>Last Name</span>
+                                            </div>
+                                        </div>
+                                        <div class="input-text">
+                                            <div class="input-div">
+                                                <!--<input type="text" required>-->
+                                                {{shipper_ind_form.contact_no}}
+                                                <span>Phone number</span>
+                                            </div>
+                                        </div>
+
+
+                                         <div class="text">
+                                        <h5>Account Details</h5>
+                                        <p>Configure your account</p>
+                                    </div>
+                                        <div class="input-text">
+                                            <div class="input-div">
+                                                <!--<input type="text" required require>-->
+                                                {{user_form.email}}
+                                                <span>Email</span>
+                                            </div>
+                                            <div class="input-div">
+                                                {{user_form.username}}
+                                                <span>Username</span>
+                                            </div>
+                                        </div>
+                                        <div class="input-text">
+                                            <div class="input-div">
+                                                {{user_form.password1}}
+                                                <span>Password</span>
+                                            </div>
+                                            <div class="input-div">
+                                                {{user_form.password2}}
+                                                <span>Re-Type Password</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="buttons button_space">
+                                            <button class="back_button">Back</button>
+                                            <button id="registerIndShipper" type="submit">Submit</button>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div class="main" id="shipperBusiness">
+
+                                    <form method="post" id="shipperBusForm" action="{% url 'shipper_signup' %}">
+                                        {% csrf_token %}
+                                        <div class="text">
+                                        <h5>Business & Contact Information</h5>
+                                        <p>Add your details</p>
+                                    </div>
+                                        <div class="input-text">
+                                            <div class="input-div">
+                                                {{shipper_bus_form.first_name}}
+                                                <span>First Name</span>
+                                            </div>
+                                            <div class="input-div">
+                                                {{shipper_bus_form.last_name}}
+                                                <!--<input type="text" required>-->
+                                                <span>Last Name</span>
+                                            </div>
+                                        </div>
+                                        <div class="input-text">
+                                            <div class="input-div">
+                                                <!--<input type="text" required>-->
+                                                {{shipper_bus_form.contact_no}}
+                                                <span>Phone number</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="input-text">
+                                            <div class="input-div">
+                                                <!--<input type="text" required>-->
+                                                {{shipper_bus_form.company_name}}
+                                                <span>Company Name</span>
+                                            </div>
+                                            <div class="input-div">
+                                                <!--<input type="text" required>-->
+                                                {{shipper_bus_form.company_URL}}
+                                                <span>Company URL</span>
+                                            </div>
+
+                                        </div>
+                                         <div class="input-text">
+                                           <div class="input-div">
+                                                <!--<input type="text" required>-->
+                                                {{shipper_bus_form.per_month_estimate_ship}}
+                                                <span>Monthly Estimate</span>
+                                            </div>
+                                         </div>
+
+                                        <div class="text">
+                                        <h5>Account Details</h5>
+                                        <p>Configure your account</p>
+                                    </div>
+                                        <div class="input-text">
+                                            <div class="input-div">
+                                                <!--<input type="text" required require>-->
+                                                {{user_form.email}}
+                                                <span>Email</span>
+                                            </div>
+                                            <div class="input-div">
+                                                {{user_form.username}}
+                                                <span>Username</span>
+                                            </div>
+                                        </div>
+                                        <div class="input-text">
+                                            <div class="input-div">
+                                                {{user_form.password1}}
+                                                <span>Password</span>
+                                            </div>
+                                            <div class="input-div">
+                                                {{user_form.password2}}
+                                                <span>Re-Type Password</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="buttons button_space">
+                                            <button class="back_button">Back</button>
+                                            <button id="registerShipper" type="submit">Submit</button>
+                                        </div>
+                                    </form>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+</body>
+</html>

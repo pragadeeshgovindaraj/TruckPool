@@ -1,0 +1,133 @@
+{% extends "users/base1.html" %}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TruckPool</title>
+
+</head>
+<body>
+{% block content %}
+
+<section class="contact_section layout_padding">
+    <div class="d-flex justify-content-center">
+        <h2 class="heading_style" style="text-align:left;">
+            Carrier Registration
+        </h2>
+    </div>
+    <!-- MultiStep Form -->
+    <div class="container-fluid" id="grad1">
+        <div class="row justify-content-center mt-0">
+            <div class="col-11 col-sm-9 col-md-7 col-lg-6 text-center p-0 mt-3 mb-2">
+                <div class="card px-0 pt-4 pb-0 mt-3 mb-3">
+                    <!--
+                                    <h2><strong>Sign Up Your User Account</strong></h2>
+                    -->
+
+                    <p>Fill all form field to go to next step</p>
+                    <p>{{user_message}}</p>
+                    <div class="row">
+                        <div class="col-md-12 mx-0">
+                            <!--{{ user_form.as_p }}-->
+                            <form id="msform" method="post" action="{% url 'carrier_signup' %}">
+                                {% csrf_token %}
+                                <!-- progressbar -->
+                                <ul id="progressbar">
+                                    <li class="active" id="account"><strong>Contact</strong></li>
+                                    <li id="personal"><strong>Company</strong></li>
+                                    <li id="payment"><strong>Account</strong></li>
+                                    <li id="confirm"><strong>Finish</strong></li>
+                                </ul>
+                                <!-- fieldsets -->
+                                <fieldset>
+
+                                    <div class="form-card">
+                                        <h2 class="fs-title">Contact Information</h2>
+                                        <!--   <table>
+                                               <tr>
+                                           <td> {{carrier_form.first_name}}</td>
+                                           <td>  {{carrier_form.last_name}}</td>
+                                                   </tr>
+                                                   <tr><td>
+                                            {{carrier_form.contact_no}}
+                                                       </td>
+                                                   </tr>
+                                           </table>-->
+                                        <table>
+                                        <tr>
+                                            <td>
+
+                                        {{carrier_form.first_name}}
+                                                </td><td>
+                                        {{carrier_form.last_name}}
+                                            </td>
+                                        </tr>
+                                            <tr>
+                                                <td>
+                                        {{carrier_form.contact_no}}
+                                                </td>
+                                            </tr>
+                                            </table>
+                                    </div>
+                                    <input type="button" name="next" class="next action-button" value="Next Step"/>
+                                </fieldset>
+                                <fieldset>
+                                    <div class="form-card">
+                                        <h2 class="fs-title">Company Details</h2>
+                                        {{carrier_form.company_name}}
+                                        {{carrier_form.address}}
+                                        {{carrier_form.postal_code}}
+                                    </div>
+                                    <input type="button" name="previous" class="previous action-button-previous"
+                                           value="Previous"/>
+                                    <input type="button" name="next" class="next action-button" value="Next Step"/>
+                                </fieldset>
+                                <fieldset>
+                                    <div class="form-card">
+                                        <h2 class="fs-title">Account Information</h2>
+                                        {{user_form.email}}
+                                        {{user_form.username}}
+                                        {{user_form.password1}}
+                                        {{user_form.password2}}
+                                        <!--<input type="email" name="email" placeholder="Email Id"/>-->
+                                        <!--<input type="text" name="uname" placeholder="UserName"/>
+                                        <input type="password" name="pwd" placeholder="Password"/>
+                                        <input type="password" name="cpwd" placeholder="Confirm Password"/>         -->
+                                    </div>
+                                    <input type="button" name="previous" class="previous action-button-previous"
+                                           value="Previous"/>
+                                    <input type="submit" name="make_payment" value="Confirm"/>
+                                </fieldset>
+
+                                <fieldset>
+
+                                    <div class="form-card" id="success_message">
+                                        <h2 class="fs-title text-center">Success !</h2>
+                                        <br><br>
+                                        <div class="row justify-content-center">
+                                            <div class="col-3">
+                                                <img src="https://img.icons8.com/color/96/000000/ok--v2.png"
+                                                     class="fit-image">
+                                            </div>
+                                        </div>
+                                        <br><br>
+                                        <div class="row justify-content-center">
+                                            <div class="col-7 text-center">
+                                                <h5>You Have Successfully Signed Up</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+</body>
+</html>

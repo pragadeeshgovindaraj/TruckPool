@@ -1,0 +1,66 @@
+{% extends "users/base1.html" %}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TruckPool</title>
+
+</head>
+<body>
+{% block content %}
+   <div class="container-fluid shipper-register-container"  id="h">
+        <div class="row" >
+              <div class="col-6 col-sm-9 col-md-7 col-lg-6 text-center p-0 mt-3 mb-2">
+
+                <div class="container">
+                    <div class="card">
+
+                        <div class="form">
+                             <div class="left-side">
+                                <div class="left-heading">
+                                    <h4>Join TruckPool</h4>
+                                </div>
+                                <div class="steps-content">
+                                    <h3>Step <span class="step-number">1</span></h3>
+                                    <p class="step-number-content active">Select Type</p>
+                                    <p class="step-number-content d-none">Enter Information</p>
+                                    <p class="step-number-content d-none"></p>
+                                </div>
+                                <ul class="progress-bar-cus">
+                                    <li class="active">Type</li>
+                                    <li class="active">Information</li>
+                                    <li class="active">Finished</li>
+                                </ul>
+
+
+                            </div>
+
+                            <div class="right-side">
+
+                                <div class="main active" >
+                                    <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                                        <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+                                        <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                                    </svg>
+
+                                    <div class="text congrats">
+                                        <h2>Congratulations!</h2>
+                                        <p>
+                                         {{success_message}}
+                                        </p>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+</body>
+</html>

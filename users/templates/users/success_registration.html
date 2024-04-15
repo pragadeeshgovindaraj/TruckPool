@@ -1,0 +1,81 @@
+{% extends "users/base1.html" %}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TruckPool</title>
+
+      <style>
+    /* Your custom CSS goes here */
+    a {
+      color: white;
+    }
+  </style>
+</head>
+<body>
+{% block content %}
+<section>
+   <div class="container-fluid shipper-register-container"  id="f">
+        <div class="row" >
+              <div class="col-6 col-sm-9 col-md-7 col-lg-6 text-center p-0 mt-3 mb-2">
+
+                <div class="container">
+                    <div class="card">
+
+                        <div class="form">
+                            <div class="left-side">
+                                <div class="left-heading">
+                                    <h3></h3>
+                                </div>
+                                <div class="steps-content">
+                                    <h3>Step <span class="step-number">1</span></h3>
+                                    <p class="step-number-content active">Enter your contact information.</p>
+                                    <p class="step-number-content d-none">Add your company information.</p>
+                                    <p class="step-number-content d-none">Configure your account. </p>
+                                    <p class="step-number-content d-none"></p>
+                                </div>
+                                <ul class="progress-bar-cus">
+                                    <li class="active">Contact Information</li>
+                                    <li class="active">Company Information</li>
+                                    <li class="active">Account Information</li>
+                                    <li class="active">Finished</li>
+                                </ul>
+
+
+                            </div>
+
+                            <div class="right-side">
+
+                                <div class="main active" >
+                                    <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                                        <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+                                        <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                                    </svg>
+
+                                    <div class="text congrats">
+                                        <h2>Congratulations!</h2>
+                                        <p>
+                                         {{success_message}}
+                                        </p>
+                                    </div>
+                                    <form method="get" action="{% url  'signin'%}">
+                                    <div class="buttons">
+                                        <button class="btn btn-primary">Signin</button>
+                                    </div>
+                                    </form>
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+</body>
+</html>

@@ -1,0 +1,61 @@
+{% load static %}
+<div class="container bootstrap snippets bootdeys">
+
+<div class="col-md-12 col-xs-12 col-md-offset-2">
+  <!-- Panel Chat -->
+  <div  id="chat" class=".chat-box-chat-bot">
+    <div class="chat-panel-heading">
+      <h3 class="chat-panel-title">
+        <i class="fas fa-robot" aria-hidden="true"></i> ChatBOT
+      </h3>
+    </div>
+    <div class="panel-body" style="height : 400px;">
+      <div class="chats scrollable-chat-container " id="id_chat_item_container-chatbot">
+        <div class="chat chat-left">
+          <div class="chat-avatar" id="chat-avatar">
+            <a class="avatar avatar-online" data-toggle="tooltip" href="#" data-placement="right" title="" data-original-title="June Lane">
+              <img src="{% static 'images/icons/robot.png' %}" alt="...">
+              <i></i>
+            </a>
+          </div>
+          <div class="chat-body">
+            <div class="chat-content">
+              <p id="message">
+                Good morning, sir.
+                <br>What can I do for you?
+              </p>
+              <time class="chat-time" datetime="2015-07-01T11:37">11:37:08 am</time>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+       <form>
+  <div class="row chat-footer">
+    <div class="col-12" >
+      {% for question in questions %}
+    <input type="button" onclick="onChatBotSend_pre(this)" id="{{ forloop.counter }}" value="{{ question }}" class="btn btn-light">
+{% endfor %}
+    </div>
+  </div>
+  <div class="row chat-footer">
+    <div class="col-12" style="margin-top: 10px;">
+  <div>
+
+        <div class="input-group">
+          <input type="text" id="id_message_send_input-chatbot" class="form-control" placeholder="Ask something">
+          <span class="input-group-btn">
+            <button class="btn btn-primary" id="id_message_send_button-chatbot" onclick="onChatBotSend('id_message_send_input-chatbot')" type="button">Send</button>
+          </span>
+        </div>
+
+    </div>
+    </div>
+    </div>
+  </form>
+
+
+  <!-- End Panel Chat -->
+</div>
+</div>
