@@ -1,0 +1,183 @@
+{% extends "carrier/carrier_view.html" %}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TruckPool</title>
+        <style>
+h5 {
+  font-size: 2rem;
+  font-weight: 2rem;
+  letter-spacing: .1rem;
+  line-height: 1.5rem;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+}
+    </style>
+</head>
+<body>
+{% block content %}
+
+
+<div class="page-titles" align="center">
+          <div class="col-md-12 col-12" align="center" >
+            <h3 class="text-themecolor mb-0" style=" text-transform: uppercase;">Plan Trip</h3>
+            <!--<ol class="breadcrumb mb-0">
+              <li class="breadcrumb-item">
+                <a href="javascript:void(0)">Home</a>
+              </li>
+              <li class="breadcrumb-item active">Row Separator</li>
+            </ol>-->
+          </div>
+</div>
+<div class="container-fluid" align="center">
+<div class="row" style="text-transform: uppercase;">
+            <div class="col-12">
+              <div class="card" align="left">
+                <div class="card-body">
+                  <h5 style="font-weight: 600;">Vehicle Details</h5>
+                  <!--<h6 class="card-subtitle">
+                    To use add <mark><code>.r-separator</code></mark> class in
+                    the form with form styling.
+                  </h6>-->
+                </div>
+                <form method="POST" action="{% url 'make_plan'%}">
+                {% csrf_token %}
+                        <div style="display: None">{{form.carrier_user}}</div>
+                  <div class="card-body">
+                      <div class="row">
+                          <div class="col-sm-12 col-lg-4">
+                              <div class="form-group mb-3 row">
+                                  <div class="input-group">
+                                      <!--{{ form.space_available}}-->
+                                    <input type="number" placeholder="Available Space %" name="space_available" class="form-control" maxlength="4" min="1" max="100" required="" id="id_space_available">
+
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="col-sm-12 col-lg-4">
+                              <div class="form-group mb-3 row">
+                                  <div class="input-group">
+                                      {{form.desired_rate}}
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                       <div id="alertMessage" class="alert-message"></div>
+                             <div class="alert alert-danger" id="error_message" style="display: None;">
+
+                                    </div>
+                            {% if success_message %}
+                              <div class="alert alert-success">
+                                        <!--<strong>{{ field|capfirst }}:</strong>-->
+                                        {{ success_message }}
+                                    </div>
+                            {% endif %}
+                            {% for field, errors in form.errors.items %}
+                                    <div class="alert alert-danger">
+                                        <!--<strong>{{ field|capfirst }}:</strong>-->
+                                        {% for error in errors %}
+                                        {{field}} : {{ error|escape }}
+                                        {% endfor %}
+                                    </div>
+                                    {% endfor %}
+                  </div>
+                    <div class="mb-4">
+
+
+                        <h5 class="pl-4" style="font-weight: 600;">Plan Details</h5>
+                        <!--<h6 class="card-subtitle">
+                          To use add <mark><code>.r-separator</code></mark> class in
+                          the form with form styling.
+                        </h6>-->
+
+                        <hr>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-12 col-lg-6">
+                                    <div class="form-group mb-3 row">
+                                        <div class="input-group">
+                                            {{form.date_of_plan}}
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-sm-12 col-lg-6">
+                                    <div class="form-group mb-3">
+                                        <input
+                                                type="text" name="start_address"
+                                                class="form-control"
+                                                onclick="openMap(this, 'id_start_location', 'id_start_city')"
+                                                placeholder="Start Location"
+                                                id="id_start_address"
+                                                value='{{carrier.start_address}}'>
+                                    </div>
+                                    <div style="display: None">{{form.start_location}}</div>
+                                </div>
+                                <div class="col-sm-12 col-lg-6">
+                                    <div class="form-group mb-3 ">
+                                       {{form.start_city}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-lg-6">
+                                    <div class="form-group mb-3">
+                                        <input
+                                                type="text" name="end_address"
+                                                class="form-control"
+                                                onclick="openMap(this, 'id_end_location', 'id_end_city')"
+                                                placeholder="End Location"
+                                                id="id_end_address"
+                                                value='{{carrier.end_address}}'>
+                                    </div>
+                                    <div style="display: None">{{form.end_location}}</div>
+                                </div>
+                                <div class="col-sm-12 col-lg-6">
+                                    <div class="form-group mb-3 ">
+                                        {{form.end_city}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  <div class="p-3">
+                    <div class="form-group text-end">
+
+                                  <button type="submit" class="
+                          btn btn-info
+                          rounded-pill
+                          px-4
+                          waves-effect waves-light
+                        ">
+                        Save
+                      </button>
+
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+
+    <div id="mapModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeMapModal()">X</span>
+            <div id="map"></div>
+        </div>
+    </div>
+
+</div>
+
+
+
+{% endblock %}
+
+</body>
+</html>
+

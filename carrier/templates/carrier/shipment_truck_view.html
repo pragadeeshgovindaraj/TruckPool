@@ -1,0 +1,20 @@
+{% extends "carrier/carrier_view.html" %}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TruckPool</title>
+</head>
+<body>
+{% block content %}
+    <span class="jusity-content-end"> <a href="{% url 'carrier_shipment_details'  request_id=request_id %}">close</a></span>
+    <div id="plot_div">
+      <img src="data:image/png;base64,{{ image_data }}" alt="Matplotlib Figure">
+    </div>
+
+
+{% endblock %}
+
+</body>
+
+</html>

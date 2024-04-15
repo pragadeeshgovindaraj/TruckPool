@@ -1,0 +1,15 @@
+{% extends "carrier/carrier_view.html" %}
+{% load static %}
+  <link href="{% static 'css/style.css' %}" rel="stylesheet" />
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TruckPool</title>
+</head>
+<body>
+{% block content %}
+{% include 'carrier/carrier_profile_template.html' %}
+{% endblock %}
+
+</body>
+</html>

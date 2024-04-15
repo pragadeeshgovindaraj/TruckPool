@@ -1,0 +1,321 @@
+{% extends "carrier/carrier_view.html" %}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TruckPool</title>
+</head>
+<body>
+{% block content %}
+
+<div class="container-fluid">
+         <h1 class="h4 text-gray-900 mb-4" align="center">Shipping Requests</h1>
+<main role="main" id="mainContent" class="content">
+
+
+    <svg class="injected-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <symbol viewBox="0 0 24 24" id="ic-hazardous" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 12l7-7 7 7-7 7-7-7zm7 9.172L21.172 12 12 2.828 2.828 12 12 21.172zM0 12L12 0l12 12-12 12L0 12z"
+                  fill-rule="nonzero"></path>
+        </symbol>
+        <symbol viewBox="0 0 50 50" id="ic_alert" xmlns="http://www.w3.org/2000/svg"><title>ic_alert-big</title>
+            <g transform="translate(1 1)" fill="none" fill-rule="evenodd">
+                <circle stroke="#02AAF3" stroke-width="2" cx="24" cy="24" r="24"></circle>
+                <path d="M24.067 34.288a1.827 1.827 0 1 1 0-3.654 1.827 1.827 0 0 1 0 3.654zm1.758-7.582a1.828 1.828 0 0 1-3.655 0v-9.977a1.828 1.828 0 0 1 3.655 0v9.977z"
+                      fill="#02AAF3"></path>
+            </g>
+        </symbol>
+        <symbol viewBox="0 0 20 20" id="ic_cancelled" xmlns="http://www.w3.org/2000/svg">
+            <path d="M13.987 12.91a.77.77 0 1 1-1.09 1.09l-2.903-2.904L7.09 14A.772.772 0 0 1 6 12.91l2.917-2.918L6.013 7.09A.77.77 0 1 1 7.103 6l2.904 2.904L12.91 6A.77.77 0 1 1 14 7.09l-2.916 2.916 2.902 2.904zm4.788-9.832a.41.41 0 0 1 .245.259.57.57 0 0 1 .053.23v12.866c0 .297-.226.538-.504.538H1.43a.472.472 0 0 1-.204-.049.404.404 0 0 1-.25-.262.57.57 0 0 1-.05-.227V3.567c0-.297.227-.538.504-.538h17.138c.074 0 .144.02.206.05zM.952 2.034C.426 2.034 0 1.578 0 1.017 0 .455.426 0 .952 0h18.095c.526 0 .953.455.953 1.017 0 .561-.427 1.017-.953 1.017H.952zm18.095 15.932c.526 0 .953.455.953 1.017 0 .562-.427 1.017-.953 1.017H.952C.426 20 0 19.545 0 18.983c0-.562.426-1.017.952-1.017h18.095z"
+                  fill-rule="evenodd"></path>
+        </symbol>
+    </svg>
+    <div id="mount">
+        <div class="acquiredListings-app">
+            <div class="row">
+                <div class="filters-wrapper">
+                    <div class="flex-container and-largeAlignStretch and-smallColumn and-largeRow and-nowrap">
+                        <div class="flex-item and-auto filterBuckets-container">
+                            <div class="filterBuckets">
+                                <div class="flex-container and-smallColumn and-largeRow">
+                                    <button class="bucket sel-bucket-All">
+                                        <div>
+                                            <div class="bucket-inner"><font style="vertical-align: inherit;"><font
+                                                    style="vertical-align: inherit;">All</font></font></div>
+                                        </div>
+                                    </button>
+                                    <button class="bucket sel-bucket-Booked isActive">
+                                        <div>
+                                            <div class="bucket-inner"><font style="vertical-align: inherit;"><font
+                                                    style="vertical-align: inherit;">Booked</font></font></div>
+                                        </div>
+                                    </button>
+                                    <button class="bucket sel-bucket-Completed">
+                                        <div>
+                                            <div class="bucket-inner"><font style="vertical-align: inherit;"><font
+                                                    style="vertical-align: inherit;">Completed</font></font></div>
+                                        </div>
+                                    </button>
+                                    <a class="notifications-container">
+                                        <div class="notifications">
+                                            <svg focusable="false" class="icon icon-medium">
+                                                <use xlink:href="#notification"></use>
+                                            </svg>
+                                        </div>
+                                    </a></div>
+                            </div>
+                        </div>
+                      <!--  <div class="searchContainer">
+                            <div class="search"><input placeholder="Search booked assignments"
+                                                       class="searchInput sel-searchInput" value="">
+                                <div class="search-buttonContainer">
+                                    <button type="button" class="searchButton sel-searchButton"
+                                            aria-label="Search Listings">
+                                        <svg focusable="false" class="searchButton-icon icon icon-medium">
+                                            <use xlink:href="#search"></use>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>-->
+                      <!--  <button class="cancelledListings-wrapper">
+                            <div>
+                                <div class="flex-container and-smallAlignCenter and-smallRow and-mediumRow and-largeRow and-nowrap cancelledListings">
+                                    <div class="cancelledListings-link"><font style="vertical-align: inherit;"><font
+                                            style="vertical-align: inherit;">Canceled assignments</font></font></div>
+                                    <svg focusable="false" class="cancelledListings-icon icon icon-small">
+                                        <use xlink:href="#new-window"></use>
+                                    </svg>
+                                </div>
+                            </div>
+                        </button>-->
+                    </div>
+                </div>
+            </div>
+
+
+            {% if carrier_requests_all %}
+            <div class="row">
+                    <div class="small-12     columns">
+                        <div class="resultsAndPagination">
+                            <div class="resultsCount">{{num_requests_all}} Results</div>
+                        </div>
+                    </div>
+                </div>
+            <div class="row">
+                    <div class="small-12     columns">
+                        <div class="flex-container and-largeAlignStretch and-smallRow and-mediumRow and-largeRow listings-list scrollable-container">
+                            <div class="flex-container and-largeAlignStart and-smallRow and-mediumRow and-largeRow listingsHeader hideForMobile">
+                                <div class="flex-item flex-large-4">
+                                    <div class="flex-container and-smallRow and-mediumRow and-largeRow">
+                                        <div class="flex-item flex-large-6 header-pickup">
+
+                                                <div class="button-content"><span><span
+                                                        class="inlineButton-text--hideInMobile">Plan ID</span><svg
+                                                        focusable="false" class="inlineButton-icon icon icon-small"><use
+                                                        xlink:href="#dropdown"></use></svg></span></div>
+
+                                        </div>
+                                        <div class="flex-item flex-large-6 header-delivery">
+
+                                                <div class="button-content"><span><span
+                                                        class="inlineButton-text--hideInMobile">Shipment ID</span><svg
+                                                        focusable="false" class="inlineButton-icon icon icon-small"><use
+                                                        xlink:href="#dropdown"></use></svg></span></div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                 <div class="flex-item flex-large-4">
+                                    <div class="flex-container and-smallRow and-mediumRow and-largeRow">
+                                        <div class="flex-item flex-large-6 header-pickup">
+
+                                                <div class="button-content"><span><span
+                                                        class="inlineButton-text--hideInMobile">Shipper Name</span><svg
+                                                        focusable="false" class="inlineButton-icon icon icon-small"><use
+                                                        xlink:href="#dropdown"></use></svg></span></div>
+
+                                        </div>
+                                        <div class="flex-item flex-large-6 header-delivery">
+
+                                                <div class="button-content"><span><span
+                                                        class="inlineButton-text--hideInMobile">Date</span><svg
+                                                        focusable="false" class="inlineButton-icon icon icon-small"><use
+                                                        xlink:href="#dropdown"></use></svg></span></div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex-item flex-large-1 header-status">Status</div>
+                            </div>
+
+                            {% for request in carrier_requests_all %}
+                            <div class="panel listing">
+                                <div class="flex-item flex-small-11 flex-medium-12 flex-large-4"><a
+                                        href="{% url 'carrier_shipment_details'  request_id=request.id %}" class="viewLink">
+                                    <div class="listing-summaryCard">
+                                        <div class="flex-container and-smallRow and-mediumRow and-largeRow">
+                                            <div class="flex-item flex-small-11 flex-medium-4 flex-large-6 route">
+                                                <div class="flex-container and-smallRow and-mediumRow and-largeRow">
+                                                    <div class="flex-item flex-small-11 flex-large-12 route-location">
+                                                        <div class="flex-container and-smallAlignStart and-largeAlignStart and-smallRow and-mediumRow and-largeRow and-nowrap">
+                                                      <!--      <svg focusable="false" class="route-icon icon icon-small">
+                                                                <use xlink:href="#pickup-location"></use>
+                                                            </svg>-->
+
+                                                            <span>{{request.carrier_plan_id}}</span></div>
+                                                    </div>
+                                                   <!-- <div class="flex-item flex-small-12 route-timeframe">
+                                                        <div class="flex-container and-smallAlignStart and-largeAlignStart and-smallRow and-mediumRow and-largeRow and-nowrap">
+                                                            <span class="route-timeframe-text">{{shipment.pickup_date}}</span></div>
+                                                    </div>-->
+                                                </div>
+                                            </div>
+                                            <div class="flex-item flex-small-12 flex-medium-4 flex-large-6">
+                                                <div class="flex-container and-largeAlignStart and-smallRow and-mediumRow and-largeRow">
+                                                    <div class="flex-item flex-small-12 route-location">
+                                                        <div class="flex-container and-smallAlignStart and-largeAlignStart and-smallRow and-mediumRow and-largeRow and-nowrap">
+                                                           <!-- <svg focusable="false" class="route-icon icon icon-small">
+                                                                <use xlink:href="#delivery-location"></use>
+                                                            </svg>-->
+                                                             <span>{{request.shipment.id}}</span>
+                                                            </div>
+                                                    </div>
+                                                    <div class="flex-item flex-small-12 route-timeframe">
+                                                        <div class="flex-container and-smallAlignStart and-largeAlignStart and-smallRow and-mediumRow and-largeRow and-nowrap">
+                                                            <span class="route-timeframe-text"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a></div>
+                                <div class="flex-item flex-small-12 flex-medium-8 flex-large-4"><a
+                                       href="{% url 'carrier_shipment_details'  request_id=request.id %}">
+                                    <div class="listing-summaryCard">
+                                        <div class="flex-container and-smallRow and-mediumRow and-largeRow">
+                                            <div class="flex-item flex-small-12 flex-medium-4 flex-large-6 listing-summaryCard">
+                                                <!--<div class="flex-item flex-small-12 flex-large-12 goods-topHalf">
+                                                    <div class="flex-container and-smallRow and-mediumRow and-largeRow and-nowrap">
+                                                        <div class="labelValue listingId sel-listingId"><label
+                                                                id="LabelValue-2-label"
+                                                                for="LabelValue-2-value">ID</label><span
+                                                                class="labelValue-delimiter">:</span><span
+                                                                id="LabelValue-2-value"
+                                                                aria-labelledby="LabelValue-2-label"
+                                                                class="labelValue-value">{{shipment.id}}</span></div>
+                                                    </div>
+                                                    <div class="flex-container and-smallRow and-mediumRow and-largeRow and-nowrap"></div>
+                                                </div>-->
+                                                <div class="flex-item flex-small-12 flex-large-12 goods-bottomHalf">
+                                                    <div class="flex-container and-largeAlignStart and-smallRow and-mediumRow and-largeRow">
+                                                        <div class="flex-item flex-large-12 refNumbers-topHalf">{{request.shipment.shipper_user.first_name}} {{request.shipment.shipper_user.last_name}}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="flex-item flex-small-12 flex-medium-4 flex-large-4 listing-referenceNumbers">
+                                                <div class="flex-item flex-large-12 refNumbers-topHalf">{{request.shipment.pickup_date}}</div>
+                                            </div>
+                                            <!--<div class="flex-item flex-small-12 flex-medium-4 flex-large-4 listing-summaryCard">
+                                                <div class="flex-item flex-small-12">
+                                                    <div class="flex-container and-smallRow and-mediumRow and-largeRow bidInfo">
+                                                        <div class="flex-item flex-small-12 bidInfo-topHalf">
+                                                            <div class="flex-container and-smallAlignStart and-smallRow and-mediumRow and-largeRow and-nowrap bidInfo-text sel-noBids">
+                                                                No Quotes
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex-item flex-small-12"></div>
+                                                    </div>
+                                                </div>
+                                            </div>-->
+                                        </div>
+                                    </div>
+                                </a></div>
+                                <div class="flex-item flex-small-12 flex-medium-2 flex-large-1">
+                                    <div class="flex-container and-smallRow and-mediumRow and-largeRow status status">
+                                        <div class="flex-item flex-small-12 status-topHalf">
+                                            <div class="status-label" data-selenium-status="Active">
+                                                <div class="status-label-text">{{request.status}}</div>
+                                                <div></div>
+                                            </div>
+                                        </div>
+                                        <div class="flex-item flex-small-12 status-bottomHalf"></div>
+                                    </div>
+                                </div>
+                                <div class="flex-item flex-small-12 flex-medium-2 flex-large-3" align="right">
+                                    <div class="flex-container and-smallRow and-mediumRow and-largeRow status status">
+                                        <div class="flex-item flex-small-12 status-topHalf">
+                                            <div data-selenium-status="Active" style="padding-left : 10px" >
+                                               <input type="hidden" name="request_id" id="request_id" value="{{request.id}}">
+             <a class="btn btn-primary btn-circle text-white" href="{% url 'shipment_truck_view'  request_id=request.id %}" title="Show Loading Preview"><i class="fa fa-box"></i></a>
+
+                        {% if request.status == 'pending'%}
+
+            <a class="btn btn-success btn-circle" href="{% url 'shipment_accept'  request_id=request.id %}" title="Accept"><i class="fa fa-check"></i>  </a>
+            <a class="btn btn-danger btn-circle" href="{% url 'shipment_reject'  request_id=request.id %}" title="Reject"><i class="fas fa-ban"></i>  </a>
+
+            {% else %}
+            <a class="btn btn-primary btn-circle" href="{% url 'label_document' shipment_id=request.shipment.id %}" title="Print Label"><i class="fa fa-print"></i>  </a>
+            {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="dropdownMenu-wrapper moreButton-wrapper">
+                                    <button class="dropdownMenu-toggle moreButton" type="button">
+     <!--                                  <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg">
+        <symbol id="more-vertical" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10.5 15.2c-1.38 0-2.5 1.076-2.5 2.4 0 1.325 1.12 2.4 2.5 2.4 1.381 0 2.5-1.075 2.5-2.4 0-1.324-1.119-2.4-2.5-2.4zm0-7.6C9.12 7.6 8 8.676 8 10c0 1.325 1.12 2.4 2.5 2.4 1.381 0 2.5-1.075 2.5-2.4 0-1.324-1.119-2.4-2.5-2.4zm0-7.6C9.12 0 8 1.076 8 2.401c0 1.325 1.12 2.4 2.5 2.4 1.381 0 2.5-1.075 2.5-2.4S11.881 0 10.5 0z"></path>
+        </symbol>
+
+        &lt;!&ndash; Use the symbol with the desired ID &ndash;&gt;
+        <use xlink:href="#more-vertical"></use>
+    </svg>-->
+                                    </button>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+               <div class="row">
+                <div class="small-12     columns">
+                    <div class="countAndEducationCallout">
+                        <div class="resultsCount"><font style="vertical-align: inherit;"><font
+                                style="vertical-align: inherit;">0 results</font></font></div>
+                    </div>
+                </div>
+            </div>
+          <div class="row">
+                <div class="small-12     columns">
+                    <div class="flex-container and-smallJustifyCenter and-smallRow and-mediumRow and-largeRow message">
+                        <div class="flex-item flex-small-12">
+                            <svg focusable="false" class="messageIcon icon icon-medium">
+                                <use xlink:href="#shipments"></use>
+                            </svg>
+                        </div>
+                        <div class="flex-item flex-small-12">
+                            <div class="primaryMessage"><font style="vertical-align: inherit;"><font
+                                    style="vertical-align: inherit;">No Requests Received</font></font></div>
+                        </div>
+                        <div class="flex-item flex-small-12">
+                            <div class="secondaryMessage"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+
+
+</main>
+</div>
+{% endblock %}
+
+</body>
+</html>

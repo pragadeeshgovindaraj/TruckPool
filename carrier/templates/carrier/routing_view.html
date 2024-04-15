@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Optimized Route with Directions</title>
+    <style>
+        #map-static-route {{
+            height: 400px;
+            width: 100%;
+        }}
+    </style>
+
+</head>
+<body>
+<div id="map-static-route"></div>
+
+<script>
+        var routeJsonString = "{{ route_json|escapejs }}";  // Retrieve JSON data from Python view
+        var routeJson = JSON.parse(routeJsonString);  // Parse JSON string to JavaScript object
+       // console.log(routeJson);  // Print routeJson object to console for verification
+        setOnMap(routeJson);
+</script>
+
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWaQEjD36vYF2wHyocZl0DrkSkXBvTCvc&callback=initMap_route"></script>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shipment Label</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .label {
+            width: 100%;
+            padding: 5px;
+            box-sizing: border-box;
+            text-align: center; /* Center align content */
+            font-size: 20px;
+        }
+        .logo {
+            max-width: 150px;
+            margin-bottom: 10px;
+            float: left; /* Float logo to the left */
+        }
+        .text-right {
+            float: right; /* Float text to the right */
+        }
+        .label-info {
+            margin-bottom: 20px;
+            border : 1px;
+        }
+        .label-info p {
+            margin: 5px 0;
+        }
+        .barcode img {
+            max-width: 100%;
+            height: auto;
+            display: block; /* Ensure QR code image is displayed as a block element */
+            margin: 0 auto; /* Center align the QR code image */
+        }
+    </style>
+</head>
+<body>
+    <div class="label">
+        <div class="label-info">
+            <table border="1" >
+                <tr >
+                    <td>
+                        <img src="{{ logo_path }}" alt="">
+                        <div class="text-right">
+                            TRUCKPOOL
+                        </div>
+                    </td>
+                <td colspan="3">
+            <!-- Content for the second column with 4 rows -->
+            <!-- Row 1 -->
+                 {{shipment.quantity}} Box
+<BR>
+                    <hr>
+                {{shipment.weight}} kg
+
+                    <BR>
+                    <hr>
+                {{shipment.length}} x {{shipment.width}} x {{shipment.height}}
+
+        </td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        shipment id : {{shipment.id}}
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        shipment date: {{shipment.pickup_date}}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                                                <div class="row">
+                            <div class="col-2" align="center">
+
+                        <div class="barcode">
+                            <img src="{{ qrcode_path }}" alt="">
+                        </div>
+                            </div>
+                                                </div>
+                    </td>
+                    <td colspan="3">
+                        <div class="row">
+                            <div class="col-2" align="left">
+                                <strong>Recipient Info</strong>
+                                <br>
+
+                                Address: {{shipment.drop_off_address}}
+                                <br>
+                                City : {{shipment.drop_off_city}}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-2" align="left">
+                                <strong>Sender Info</strong>
+                                <br>
+                                Name :                     {{ shipment.shipper_user.first_name }} {{ shipment.shipper_user.last_name }}
+
+                                Address: {{shipment.pickup_address}}
+                                <br>
+                                City : {{shipment.pickup_city}}
+                                <br>
+                                Phone : {{ shipment.shipper_user.contact_no}}
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
